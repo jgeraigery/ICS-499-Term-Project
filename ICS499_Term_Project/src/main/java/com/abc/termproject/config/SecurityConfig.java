@@ -16,6 +16,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
+	// This method is used to store user credentials. After connecting to the DB, we will need to read in the users
+	// into this unless there is another way to do it. For the hard coded users, it works great
 	@Bean
 	public UserDetailsService user() {
 		UserBuilder users = User.withDefaultPasswordEncoder();
@@ -24,6 +26,9 @@ public class SecurityConfig {
 		return new InMemoryUserDetailsManager(user, admin);
 	}
 	
+	// This method is used for authentication of admin vs customer (user)
+	// Prevents customers from accessing admin page, currently admin can access both but we could easily
+	// delete the user privilege from admin in the method above
 	@Bean
 	public SecurityFilterChain securityFilter(HttpSecurity http) throws Exception {
 		return http
