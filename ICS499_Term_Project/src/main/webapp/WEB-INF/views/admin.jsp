@@ -8,5 +8,6 @@
 </head>
 <body>
 <h1>This is the Admin Page</h1>
+<button onclick="window.location.href='http://localhost:8080/login'">Log Out</button>
 </body>
 </html>
