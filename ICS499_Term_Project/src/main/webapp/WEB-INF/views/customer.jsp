@@ -127,6 +127,12 @@
 %>
 <br />
 <br />
+<ol>
+	<li>Example List Item 1</li>
+	<li>Example List Item 2</li>
+	<li>Example List Item 3</li>
+	<li>Example List Item 4</li>
+</ol>
 <button onclick="window.location.href='http://localhost:8080/login'">Log Out</button>
 </body>
 </html>
