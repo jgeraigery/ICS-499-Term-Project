@@ -1,0 +1,22 @@
+@charset "ISO-8859-1";
+.row {
+	display: flex;
+	padding: 25px;
+}
+
+.column1 {
+	padding: 25px;
+	flex: 50%;
+	border-style: inset;
+}
+
+.column2 {
+	padding: 25px;
+	flex: 50%;
+	border-style: inset;
+}
+
+.logout {
+	position: absolute;
+	right: 0;
+}

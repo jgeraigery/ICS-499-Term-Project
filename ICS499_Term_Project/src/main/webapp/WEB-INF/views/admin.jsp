@@ -4,11 +4,13 @@
 <%@page import="java.util.*"%>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>Admin Page</title>
+	<meta charset="ISO-8859-1">
+	<title>Admin Page</title>
+	<link rel="stylesheet" href="./adminstyle.css">
 </head>
 <body>
-<h1>Welcome Admin!</h1>
+<h1>Welcome [Admin Name Goes Here]</h1>
+<button class="logout" onclick="window.location.href='http://localhost:8080/login'">Log Out</button>
 <%!
     // This was a function, but I commented it out and put everything together to make it easier to edit my code.
     
@@ -61,7 +63,7 @@
     //deliveryListBuilder();
 
     // This part builds the ArrayList that holds other ArrayLists that will in the future store data that you will get from the database.
-    
+    /*
     ArrayList<ArrayList<String>> deliveryList =  new ArrayList<ArrayList<String>>();
 
     ArrayList<String> a1 = new ArrayList<String>();
@@ -107,7 +109,7 @@
         }
         out.println("<br/>");
     }
-    
+    */
     // This is a framework on how a admin would select a single delivery, the problem is that it asks for input before you can access the Admin page.
     
     /*
@@ -125,14 +127,27 @@
     System.out.println();
     */
 %>
-<br />
-<br />
-<ol>
-	<li>Example List Item 1</li>
-	<li>Example List Item 2</li>
-	<li>Example List Item 3</li>
-	<li>Example List Item 4</li>
-</ol>
-<button onclick="window.location.href='http://localhost:8080/login'">Log Out</button>
+<div class="row">
+	<div class="column1">
+		<p>Deliveries for [Today's Date]</p>
+		<ul style="list-style-type: none">
+			<li><a href="#column2">Delivery 1</a></li>
+			<li><a href="#column2">Delivery 2</a></li>
+			<li><a href="#column2">Delivery 3</a></li>
+			<li><a href="#column2">Delivery 4</a></li>
+		</ul>
+	</div>
+	<div class="column2">
+		<p>Invoice information for [Selected Delivery]</p>
+		<ul style="list-style-type: none">
+			<li>1 Banana</li>
+			<li>2 Banana</li>
+			<li>3 Banana</li>
+			<li>4 Banana</li>
+		</ul>
+		<button class="cancel" onclick="">Cancel Delivery</button>
+		<button class="verify" onclick="">Verify Delivery</button>
+	</div>
+</div>
 </body>
 </html>
