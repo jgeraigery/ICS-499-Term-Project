@@ -130,22 +130,40 @@
 <div class="row">
 	<div class="column1">
 		<p>Invoice history for [Customer Name]</p>
-		<ul style="list-style-type: none">
-			<li><a href="#column2">Invoice 1</a></li>
-			<li><a href="#column2">Invoice 2</a></li>
-			<li><a href="#column2">Invoice 3</a></li>
-			<li><a href="#column2">Invoice 4</a></li>
-		</ul>
+		<ul id="invoiceListBuilder" style="list-style-type: none">   
+        </ul>
 	</div>
-	<div class="column2">
-		<p>Invoice information for [Date]</p>
-		<ul style="list-style-type: none">
-			<li>1 Banana</li>
-			<li>2 Banana</li>
-			<li>3 Banana</li>
-			<li>4 Banana</li>
-		</ul>
+	<div class="column2" id="column2" style="display:none">
 	</div>
+	<script>
+    const list = ["Invoice 1", "Invoice 2", "Invoice 3", "Invoice 4"];
+
+    let text = "";
+    for (let i = 0; i < list.length; i++) {
+        text += "<li><a href=\"#column2\" onclick=\"showInvoiceView(" + i + ")\">" + list[i] + "</a></li>";
+    }
+
+    document.getElementById("invoiceListBuilder").innerHTML = text;
+    </script>
+    <script>
+    function showInvoiceView(i) {
+        const list = ["1 Banana", "2 Banana", "3 Banana", "4 Banana"];
+        
+        var x = document.getElementById("column2");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+            
+            let text = "<p>Invoice information for Date " + (i + 1) +
+            "</p><ul style=\"list-style-type: none\"><li>" + list[i] +
+            "</li></ul>";
+            
+            document.getElementById("column2").innerHTML = text;
+            
+        } else {
+            x.style.display = "none";
+        }
+    }
+    </script>
 </div>
 
 </body>
