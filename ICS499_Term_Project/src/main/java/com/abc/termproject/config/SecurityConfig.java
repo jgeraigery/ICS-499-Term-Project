@@ -13,36 +13,38 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.ArrayList;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 	
-	public Connection connection;
+    public Connection connection;
 	
 	
 	//method checks if the database can be connected to
-		private boolean connect() {
-			try {
-				//Each user will need to enter their own username and password for the database
-				connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Strangerdanger");
-				return true;
-			} catch (Exception ex) {
-				System.out.println("error - database did not connect\n" + ex.getMessage());
-			}
-			return false;
-		}
+    private boolean connect() {
+        try {
+			//Each user will need to enter their own username and password for the database
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Strangerdanger");
+            return true;
+        } catch (Exception ex) {
+            System.out.println("error - database did not connect\n" + ex.getMessage());			}
+        return false;
+    }
 
 	// This method is used to store user credentials. After connecting to the DB, we will need to read in the users
 	// into this unless there is another way to do it. For the hard coded users, it works great
 	@Bean
 	public UserDetailsService user() {
 		connect();
-		checkIdAndPassword("test", "password1");
-		UserBuilder users = User.withDefaultPasswordEncoder();
-		UserDetails user = users.username("user").password("user").roles("USER").build();
-		UserDetails admin = users.username("admin").password("admin").roles("USER", "ADMIN").build();
-		return new InMemoryUserDetailsManager(user, admin);
+		List <UserDetails> userList = getUsers();
+		return new InMemoryUserDetailsManager(userList);
+//		UserBuilder users = User.withDefaultPasswordEncoder();
+//		UserDetails user = users.username("user").password("user").roles("USER").build();
+//		UserDetails admin = users.username("admin").password("admin").roles("USER", "ADMIN").build();
+//		return new InMemoryUserDetailsManager(user, admin);
 	}
 	
 	// This method is used for authentication of admin vs customer (user)
@@ -50,35 +52,36 @@ public class SecurityConfig {
 	// delete the user privilege from admin in the method above
 	@Bean
 	public SecurityFilterChain securityFilter(HttpSecurity http) throws Exception {
-		return http
-				.authorizeHttpRequests(auth -> {
-					auth.requestMatchers("/login").permitAll();
-					auth.requestMatchers("/customer").hasRole("USER");
-					auth.requestMatchers("/admin").hasRole("ADMIN");
-					auth.anyRequest().authenticated();
-				})
-				.formLogin(Customizer.withDefaults())
-				.build();
+        return http
+            .authorizeHttpRequests(auth -> {
+            auth.requestMatchers("/login").permitAll();
+            auth.requestMatchers("/customer").hasRole("USER");
+            auth.requestMatchers("/admin").hasRole("ADMIN");
+            auth.anyRequest().authenticated();
+            })
+            .formLogin(Customizer.withDefaults())
+            .build();
 
 	}
 	
-	private boolean checkIdAndPassword(String userName, String pass) {
-		try {
-			//checks if the username and password are in the database
-			String query = "SELECT * FROM user WHERE username = ? AND pass = ? natural join password";
-			java.sql.PreparedStatement statement = connection.prepareStatement(query);
-			statement.setString(1, userName);
-			statement.setString(2, pass);
-			java.sql.ResultSet resultSet = statement.executeQuery();
-			if (resultSet.next()) {
-				System.out.println("User found");
-				return true;
-			}
-		} catch (Exception ex) {
-			System.out.println("error - could not check username and password\n" + ex.getMessage());
-		}
-		System.out.println("Could not find user");
-		return false;
+	private List<UserDetails> getUsers() {
+	    List<UserDetails> userList = new ArrayList<UserDetails>();
+	    UserBuilder users = User.withDefaultPasswordEncoder();
+
+	    try {
+	        String query = "SELECT * FROM user";
+	        java.sql.PreparedStatement statement = connection.prepareStatement(query);
+	        java.sql.ResultSet resultSet = statement.executeQuery();
+	        while (resultSet.next()) {
+	            userList.add(users.username(resultSet.getString("userName"))
+	            .password(resultSet.getString("password"))
+	            .roles(resultSet.getString("userType"))
+	            .build());
+
+	        }
+	    } catch (Exception ex) {
+	        System.out.println("error - could not check username and password\n" + ex.getMessage());
+	    }
+	    return userList;
 	}
-	
 }
