@@ -38,6 +38,7 @@ public class DatabaseUtility {
 	            .build());
 
 	        }
+	        connection.close();
 	    } catch (Exception ex) {
 	        System.out.println("error - could not check username and password\n" + ex.getMessage());
 	    }
@@ -50,5 +51,23 @@ public class DatabaseUtility {
 	
 	public void getDeliveries() {
 		//TODO
+	}
+	
+	public String getUserFullName(String user) {
+		String fullName = "";
+		connect();
+		try {
+	        String query = "SELECT * FROM user where userName= " + '"'+user+'"';
+	        java.sql.PreparedStatement statement = connection.prepareStatement(query);
+	        java.sql.ResultSet resultSet = statement.executeQuery();
+	        while (resultSet.next()) {
+	            fullName = fullName + resultSet.getString("firstName") + " " + resultSet.getString("lastName");
+
+	        }
+	        connection.close();
+	    } catch (Exception ex) {
+	        System.out.println("error - could not check username and password\n" + ex.getMessage());
+	    }
+	    return fullName;
 	}
 }
