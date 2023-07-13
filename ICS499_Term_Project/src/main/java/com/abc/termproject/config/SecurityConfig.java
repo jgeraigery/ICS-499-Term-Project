@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import java.util.List;
-import com.abc.termproject.utils.connection;
+import com.abc.termproject.utils.DatabaseUtility;
 
 @Configuration
 @EnableWebSecurity
@@ -21,7 +21,7 @@ public class SecurityConfig {
 	// into this unless there is another way to do it. For the hard coded users, it works great
 	@Bean
 	public UserDetailsService user() {
-		connection connection = new connection();
+		DatabaseUtility connection = new DatabaseUtility();
 		connection.connect();
 		List <UserDetails> userList = connection.getUsers();
 		return new InMemoryUserDetailsManager(userList);

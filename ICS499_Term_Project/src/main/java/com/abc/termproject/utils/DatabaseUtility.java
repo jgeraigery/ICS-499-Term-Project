@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.User.UserBuilder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-public class connection {
+public class DatabaseUtility {
 
 	public Connection connection;
 	
