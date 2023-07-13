@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@page import="com.abc.termproject.controller.*"%>    
+<%@page import="com.abc.termproject.controller.*"%>   
+<% NavigationController control = new NavigationController(); %> 
+<%@page import="com.abc.termproject.utils.*"%>   
+<%  DatabaseUtility db = new DatabaseUtility(); %> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,8 +12,8 @@
 	<link rel="stylesheet" href="./adminstyle.css">
 </head>
 <body>
-<% NavigationController control = new NavigationController(); %>
-<h1>Welcome <%= control.getCurrentUser() %></h1>
+
+<h1>Welcome <%= db.getUserFullName(control.getCurrentUser()) %></h1>
 <button class="logout" onclick="window.location.href='http://localhost:8080/login'">Log Out</button>
 <div class="row">
 	<div class="column1">

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@page import="com.abc.termproject.controller.*"%>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,9 +9,9 @@
 	<link rel="stylesheet" href="./adminstyle.css">
 </head>
 <body>
-<h1>Welcome [Admin Name Goes Here]</h1>
+<% NavigationController control = new NavigationController(); %>
+<h1>Welcome <%= control.getCurrentUser() %></h1>
 <button class="logout" onclick="window.location.href='http://localhost:8080/login'">Log Out</button>
-
 <div class="row">
 	<div class="column1">
 		<p>Deliveries for [Today's Date]</p>
