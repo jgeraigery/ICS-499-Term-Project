@@ -25,8 +25,12 @@ public class NavigationController {
 	// Used to redirect user based on login credentials
 	@GetMapping("/")
 	public String redirect(HttpServletRequest request) {
-		if (request.isUserInRole("ADMIN"))
+		if (request.isUserInRole("DRIVER")) {
+			return "driver";
+		}
+		if (request.isUserInRole("ADMIN")) {
 			return "admin";
+		}
 		return "customer";
 	}
 	
@@ -34,6 +38,12 @@ public class NavigationController {
 	@GetMapping("/admin")
 	public String admin() {
 		return "admin";
+	}
+	
+	// Used to access the admin page manually
+	@GetMapping("/driver")
+	public String driver() {
+		return "driver";
 	}
 	
 	// Used to access the customer page manually

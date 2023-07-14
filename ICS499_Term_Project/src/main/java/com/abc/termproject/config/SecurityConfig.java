@@ -37,6 +37,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> {
             auth.requestMatchers("/login").permitAll();
             auth.requestMatchers("/customer").hasRole("USER");
+            auth.requestMatchers("/driver").hasRole("DRIVER");
             auth.requestMatchers("/admin").hasRole("ADMIN");
             auth.anyRequest().authenticated();
             })
