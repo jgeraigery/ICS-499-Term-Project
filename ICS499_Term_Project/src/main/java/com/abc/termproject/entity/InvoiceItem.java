@@ -5,12 +5,14 @@ public class InvoiceItem {
 	private String name;
 	private String description;
 	private double price;
+	private int quantity;
 	
-	public InvoiceItem(int productID, String name, String description, double price) {
+	public InvoiceItem(int productID, String name, String description, double price, int quantity) {
 		this.productID = productID;
 		this.setName(name);
 		this.setDescription(description);
 		this.setPrice(price);
+		this.setQuantity(quantity);
 	}
 
 	public String getName() {
@@ -43,5 +45,13 @@ public class InvoiceItem {
 
 	public void setProductID(int productID) {
 		this.productID = productID;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 }

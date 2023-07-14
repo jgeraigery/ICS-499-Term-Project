@@ -4,32 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Invoice {
-	private String firstName;
-	private String lastName;
+	private String name;
 	private int userID;
 	private List<InvoiceItem> itemList = new ArrayList<InvoiceItem>();
 
-	public Invoice(String firstName, String lastName, int userID) {
-		this.setFirstName(firstName);
-		this.setLastName(lastName);
+	public Invoice(String name, int userID) {
+		this.setName(name);
 		this.setUserID(userID);
-		
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
 	}
 
 	public int getUserID() {
@@ -46,6 +27,22 @@ public class Invoice {
 
 	public void setItemList(List<InvoiceItem> itemList) {
 		this.itemList = itemList;
+	}
+	
+	public double getTotal(List<InvoiceItem> items) {
+		double total = 0;
+		for(InvoiceItem i : items) {
+			total += (i.getPrice()*i.getQuantity());
+		}
+		return total;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 
