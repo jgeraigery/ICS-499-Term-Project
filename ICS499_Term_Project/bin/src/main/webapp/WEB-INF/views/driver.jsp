@@ -3,17 +3,18 @@
 <%@page import="com.abc.termproject.controller.*"%>   
 <% NavigationController control = new NavigationController(); %> 
 <%@page import="com.abc.termproject.utils.*"%>   
-<%  DatabaseUtility db = new DatabaseUtility(); %> 
+<%  DatabaseUtility db = new DatabaseUtility(); %>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="ISO-8859-1">
-	<title>Admin Page</title>
-	<link rel="stylesheet" href="./adminstyle.css">
+	<title>Driver Page</title>
+	<link rel="stylesheet" href="./driverstyle.css">
 </head>
 <body>
 
 <h1>Welcome <%= db.getUserFullName(control.getCurrentUser()) %></h1>
+<h2>YOU ARE ON THE DRIVER PAGE</h2>
 <button class="logout" onclick="window.location.href='http://localhost:8080/login'">Log Out</button>
 <div class="row">
 	<div class="column1">
@@ -53,5 +54,6 @@
     }
     </script>
 </div>
+
 </body>
 </html>

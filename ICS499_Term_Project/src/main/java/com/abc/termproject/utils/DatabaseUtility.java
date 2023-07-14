@@ -47,7 +47,7 @@ public class DatabaseUtility {
 	    return userList;
 	}
 	
-	public void getInvoices() {
+	public void getInvoices(int custID) {
 		//TODO
 	}
 	
@@ -56,7 +56,7 @@ public class DatabaseUtility {
 	}
 	
 	
-	public void getDeliveries() {
+	public void getDeliveries(int driverID) {
 		//TODO
 	}
 	
