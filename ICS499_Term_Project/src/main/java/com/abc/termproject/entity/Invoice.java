@@ -29,9 +29,9 @@ public class Invoice {
 		this.itemList = itemList;
 	}
 	
-	public double getTotal(List<InvoiceItem> items) {
+	public double getTotal() {
 		double total = 0;
-		for(InvoiceItem i : items) {
+		for(InvoiceItem i : itemList) {
 			total += (i.getPrice()*i.getQuantity());
 		}
 		return total;

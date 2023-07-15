@@ -19,7 +19,11 @@ public class DatabaseUtility {
 
 	public Connection connection;
 	
-	 public boolean connect() {
+	/**
+	 * Method to establish DB connection. Must be called before and closed after any DB query.
+	 * @return (boolean) 
+	 */
+	public boolean connect() {
 	        try {
 				//Each user will need to enter their own username and password for the database
 	            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Strangerdanger");
@@ -31,6 +35,10 @@ public class DatabaseUtility {
 	        return false;
 	    }
 	
+	/**
+	 * Method is used to populate Springs login credential table.
+	 * @return (List<UserDetails>) - list of UserDetail objects defined springs security framework
+	 */
 	public List<UserDetails> getUsers() {
 	    List<UserDetails> userList = new ArrayList<UserDetails>();
 	    UserBuilder users = User.withDefaultPasswordEncoder();
@@ -44,7 +52,6 @@ public class DatabaseUtility {
 	            .password(resultSet.getString("password"))
 	            .roles(resultSet.getString("userType"))
 	            .build());
-
 	        }
 	        connection.close();
 	    } catch (Exception ex) {
@@ -54,12 +61,17 @@ public class DatabaseUtility {
 	}
 	
 	public void getInvoices(int custID, String date) {
-		//initialize list to hold all items from a specific day
-//		List<InvoiceItem> items = new ArrayList<InvoiceItem>();
+		//TODO
 	}
 	
-	
-	
+	/**
+	 * Method calls DB to query an invoice by selected date. DB returns a series of DB entries that are
+	 * that are used to create InvoiceItem objects that are added to a list. That list will be added to
+	 * an Invoice object that it returned.
+	 * @param (String) - date; YYYY-MM-DD format is required to function correctly
+	 * @param (int) - id; user id is used to get name to be added to Invoice object
+	 * @return (Invoice) - invoice; Object that contains all relevant data for a particular invoice.
+	 */
 	public Invoice getInvoice(String date, int id) {
 		String fullName = getUserFullNameByID(id);
 		List<InvoiceItem> items = new ArrayList<InvoiceItem>();
@@ -79,6 +91,7 @@ public class DatabaseUtility {
 		}
 		//TODO create new invoice item to add list to, return invoice object
 		Invoice invoice = new Invoice(fullName, id);
+		invoice.setItemList(items);
 		connection.close();
 		return invoice;
 		} catch (Exception ex) {
@@ -88,11 +101,15 @@ public class DatabaseUtility {
 		
 	}
 	
-	
+	/**
+	 * Method to retrieve users full name by user id
+	 * @param (int) id - users numeric auto generated id
+	 * @return (String) - Users full first and last name
+	 */
 	public String getUserFullNameByID(int id) {
 		String fullName = "";
 		try { connect();
-	        String query = "SELECT * FROM user where userName= " + '"'+id+'"';
+	        String query = "SELECT * FROM user where userID= " + '"'+id+'"';
 	        PreparedStatement statement = connection.prepareStatement(query);
 	        ResultSet resultSet = statement.executeQuery();
 	        while (resultSet.next()) {
@@ -100,10 +117,11 @@ public class DatabaseUtility {
 
 	        }
 	        connection.close();
+	        return fullName;
 	    } catch (Exception ex) {
 	        System.out.println("error - could not check username and password\n" + ex.getMessage());
 	    }
-	    return fullName;
+	    return null;
 	}
 
 	
@@ -113,12 +131,13 @@ public class DatabaseUtility {
 	}
 	
 	public void getDelivery() {
-		
+		//TODO
 	}
 	
 	//Returns a list of unique dates for the customer to choose from. 
 	//This will be used to create an inventory populated by all items from that date.
 	public List<String> getDatesInvoice() {
+		//TODO
 		return null;
 	}
 	
@@ -135,7 +154,7 @@ public class DatabaseUtility {
 	        }
 	        connection.close();
 	    } catch (Exception ex) {
-	        System.out.println("error - could not check username and password\n" + ex.getMessage());
+	        System.out.println("error - Could not retreive user name\n" + ex.getMessage());
 	    }
 	    return fullName;
 	}

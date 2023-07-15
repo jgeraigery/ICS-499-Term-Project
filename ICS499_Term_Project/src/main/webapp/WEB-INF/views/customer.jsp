@@ -13,6 +13,7 @@
 </head>
 <body>
 <h1>Welcome <%= db.getUserFullName(control.getCurrentUser()) %></h1>
+<h1>Invoice Total: $<%= db.getInvoice("2023-12-01", 1).getTotal() %></h1>
 <button class="logout" onclick="window.location.href='http://localhost:8080/login'">Log Out</button>
 
 <div class="row">

@@ -1,4 +1,9 @@
 package com.abc.termproject.entity;
+/**
+ * 
+ * @author tom
+ *
+ */
 
 public class InvoiceItem {
 	private int productID;
