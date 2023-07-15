@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.abc.termproject.entity.DateInvoiceNumber;
 import com.abc.termproject.entity.Invoice;
 import com.abc.termproject.entity.InvoiceItem;
 
@@ -60,8 +61,34 @@ public class DatabaseUtility {
 	    return userList;
 	}
 	
-	public void getInvoices(int custID, String date) {
-		//TODO
+	/**
+	 * Method returns a list of DateInvoiceNumberObjects for a user to select from. The returned object's 
+	 * attributes are used by the getInvoice method to get details for a specific invoice.
+	 * @param (String) - user; userName
+	 * @return (List<DateInvoiceNumber>) - dateList; object with attributes userID, invoiceID, and invoiceDate
+	 */
+	public List<DateInvoiceNumber> getInvoiceDates(String user) {
+		List<DateInvoiceNumber> dateList = new ArrayList<DateInvoiceNumber>();
+		String query = "select distinct invoiceDate, invoiceID, userID from invoiceItem "
+				+ "natural join user where userName = ?";
+		try {
+		connect();
+		PreparedStatement stmt = connection.prepareStatement(query);
+		stmt.setString(1, user);
+		ResultSet rs = stmt.executeQuery();
+		while(rs.next()) {
+			DateInvoiceNumber dateItem= new DateInvoiceNumber(rs.getInt("userID"), 
+					rs.getInt("invoiceID"), 
+					rs.getString("invoiceDate"));
+			dateList.add(dateItem);
+		}
+		connection.close();
+		return dateList;
+		} catch (Exception ex) {
+	        System.out.println(ex.getMessage());
+		}
+		return null;
+		
 	}
 	
 	/**
@@ -70,18 +97,18 @@ public class DatabaseUtility {
 	 * an Invoice object that it returned.
 	 * @param (String) - date; YYYY-MM-DD format is required to function correctly
 	 * @param (int) - id; user id is used to get name to be added to Invoice object
+	 * @param (int) - invoiceID; used to query database for items matching a specific invoice number
+	 * allows for a customer to have multiple invoices from a single date
 	 * @return (Invoice) - invoice; Object that contains all relevant data for a particular invoice.
 	 */
-	public Invoice getInvoice(String date, int id) {
+	public Invoice getInvoice(String date, int id, int invoiceID) {
 		String fullName = getUserFullNameByID(id);
 		List<InvoiceItem> items = new ArrayList<InvoiceItem>();
-		String query = "select * from user natural join InvoiceItem natural join product "
-				+ "where invoiceDate = ? && userID = ?";
+		String query = "select * from user natural join InvoiceItem natural join product where invoiceID = ?";
 		try {
 		connect();
 		PreparedStatement stmt = connection.prepareStatement(query);
-		stmt.setString(1, date);
-		stmt.setInt(2, id);
+		stmt.setInt(1, invoiceID);
 		ResultSet rs = stmt.executeQuery();
 		while(rs.next()) {
 			InvoiceItem ii = new InvoiceItem(rs.getInt("productID"), 
@@ -89,16 +116,26 @@ public class DatabaseUtility {
 					rs.getString("description"), rs.getInt("price"), rs.getInt("quantity"));
 			items.add(ii);
 		}
-		//TODO create new invoice item to add list to, return invoice object
 		Invoice invoice = new Invoice(fullName, id);
 		invoice.setItemList(items);
+		invoice.setInvoiceID(invoiceID);
 		connection.close();
 		return invoice;
 		} catch (Exception ex) {
 	        System.out.println(ex.getMessage());
 		}
 		return null;
-		
+	}
+	
+
+	
+
+	public void getDeliveries(int driverID) {
+		//TODO
+	}
+	
+	public void getDelivery() {
+		//TODO
 	}
 	
 	/**
@@ -123,25 +160,12 @@ public class DatabaseUtility {
 	    }
 	    return null;
 	}
-
 	
-	
-	public void getDeliveries(int driverID) {
-		//TODO
-	}
-	
-	public void getDelivery() {
-		//TODO
-	}
-	
-	//Returns a list of unique dates for the customer to choose from. 
-	//This will be used to create an inventory populated by all items from that date.
-	public List<String> getDatesInvoice() {
-		
-		return null;
-	}
-	
-	
+	/**
+	 * Method to retrieve users full name by userName
+	 * @param (String) user - user name
+	 * @return (String) - Users full first and last name
+	 */
 	public String getUserFullName(String user) {
 		String fullName = "";
 		try { connect();
@@ -153,9 +177,32 @@ public class DatabaseUtility {
 
 	        }
 	        connection.close();
+	        return fullName;
 	    } catch (Exception ex) {
 	        System.out.println("error - Could not retreive user name\n" + ex.getMessage());
 	    }
-	    return fullName;
+	    return null;
+	}
+	
+	/**
+	 * Method to retrieve users ID by userName
+	 * @param (String) user - user name
+	 * @return (int) - UserID
+	 */
+	public int getUserIDByUserName(String userName) {
+		int id = 0;
+		try { connect();
+	        String query = "SELECT userID FROM user where userName= " + '"'+userName+'"';
+	        PreparedStatement statement = connection.prepareStatement(query);
+	        ResultSet resultSet = statement.executeQuery();
+	        while (resultSet.next()) {
+	            id = resultSet.getInt("userID");
+	        }
+	        connection.close();
+	        return id;
+	    } catch (Exception ex) {
+	        System.out.println("error - could not check username and password\n" + ex.getMessage());
+	    }
+	    return id;
 	}
 }
