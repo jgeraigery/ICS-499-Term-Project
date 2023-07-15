@@ -6,6 +6,7 @@ import java.util.List;
 public class Invoice {
 	private String name;
 	private int userID;
+	private int invoiceID;
 	private List<InvoiceItem> itemList = new ArrayList<InvoiceItem>();
 
 	public Invoice(String name, int userID) {
@@ -43,6 +44,14 @@ public class Invoice {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public int getInvoiceID() {
+		return invoiceID;
+	}
+
+	public void setInvoiceID(int invoiceID) {
+		this.invoiceID = invoiceID;
 	}
 
 
