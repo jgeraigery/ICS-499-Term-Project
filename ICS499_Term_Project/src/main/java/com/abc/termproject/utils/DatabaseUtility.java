@@ -26,9 +26,9 @@ public class DatabaseUtility {
 	public boolean connect() {
 	        try {
 				//Each user will need to enter their own username and password for the database
-	            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Strangerdanger");
+//	            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Strangerdanger");
 	            // Thomas's connection
-//	            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Quintav85$311");
+	            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Quintav85$311");
 	            return true;
 	        } catch (Exception ex) {
 	            System.out.println("error - database did not connect\n" + ex.getMessage());			}
@@ -137,7 +137,7 @@ public class DatabaseUtility {
 	//Returns a list of unique dates for the customer to choose from. 
 	//This will be used to create an inventory populated by all items from that date.
 	public List<String> getDatesInvoice() {
-		//TODO
+		
 		return null;
 	}
 	
