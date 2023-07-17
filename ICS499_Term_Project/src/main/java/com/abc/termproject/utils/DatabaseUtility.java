@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.abc.termproject.entity.DateInvoiceNumber;
+import com.abc.termproject.entity.Delivery;
 import com.abc.termproject.entity.Invoice;
 import com.abc.termproject.entity.InvoiceItem;
 
@@ -127,13 +128,33 @@ public class DatabaseUtility {
 		return null;
 	}
 	
-
-	public void getDeliveries(int driverID) {
-		//TODO
-	}
-	
-	public void getDelivery() {
-		//TODO
+	/**
+	 * Method takes in driverID and date of deliveries to return a list of Delivery objects
+	 * @param (int) - driverID; drivers unique id number
+	 * @param (String) - date; date of delivers requested from the DB
+	 * @return List<Delivery> - dateList; List of all delivery objects for specified date
+	 */
+	public List<Delivery> getDeliveries(int driverID, String date) {
+		List<Delivery> dateList = new ArrayList<Delivery>();
+		String query = "Select * from deliveries natural join invoiceItems where driverID = ? and date = ?";
+		try {
+		connect();
+		PreparedStatement stmt = connection.prepareStatement(query);
+		stmt.setInt(1, driverID);
+		stmt.setString(2, date);
+		ResultSet rs = stmt.executeQuery();
+		while(rs.next()) {
+			Delivery dateItem= new Delivery(rs.getInt("deliveryID"), 
+					rs.getInt("employeeID"), 
+					rs.getString("invoiceDate"), rs.getInt("invoiceID"), rs.getString("status"));
+			dateList.add(dateItem);
+		}
+		connection.close();
+		return dateList;
+		} catch (Exception ex) {
+	        System.out.println(ex.getMessage());
+		}
+		return null;
 	}
 	
 	/**
