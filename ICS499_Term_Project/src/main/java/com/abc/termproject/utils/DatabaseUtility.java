@@ -128,8 +128,6 @@ public class DatabaseUtility {
 	}
 	
 
-	
-
 	public void getDeliveries(int driverID) {
 		//TODO
 	}
@@ -200,6 +198,27 @@ public class DatabaseUtility {
 	        }
 	        connection.close();
 	        return id;
+	    } catch (Exception ex) {
+	        System.out.println("error - could not check username and password\n" + ex.getMessage());
+	    }
+	    return id;
+	}
+	
+	/**
+	 * Used to get new invoiceID value for new invoices entered by admin
+	 * @return (int) - id; maximum id number from db + 1
+	 */
+	public int getNewInvoiceID() {
+		int id = 0;
+		try { connect();
+	        String query = "Select MAX(invoiceID) as max from invoiceItem";
+	        PreparedStatement statement = connection.prepareStatement(query);
+	        ResultSet resultSet = statement.executeQuery();
+	        while (resultSet.next()) {
+	            id = resultSet.getInt("max");
+	        }
+	        connection.close();
+	        return id+1;
 	    } catch (Exception ex) {
 	        System.out.println("error - could not check username and password\n" + ex.getMessage());
 	    }
