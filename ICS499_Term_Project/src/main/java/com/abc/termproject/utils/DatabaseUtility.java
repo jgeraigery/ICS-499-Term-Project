@@ -65,7 +65,7 @@ public class DatabaseUtility {
 	        }
 	        connection.close();
 	    } catch (Exception ex) {
-	        System.out.println("error - could not check username and password\n" + ex.getMessage());
+	        System.out.println("error - could not get user list\n" + ex.getMessage());
 	    }
 	    return userList;
 	}
@@ -81,20 +81,20 @@ public class DatabaseUtility {
 		String query = "select distinct invoiceDate, invoiceID, userID from invoiceItem "
 				+ "natural join user where userName = ?";
 		try {
-		connect();
-		PreparedStatement stmt = connection.prepareStatement(query);
-		stmt.setString(1, user);
-		ResultSet rs = stmt.executeQuery();
-		while(rs.next()) {
-			DateInvoiceNumber dateItem= new DateInvoiceNumber(rs.getInt("userID"), 
-					rs.getInt("invoiceID"), 
-					rs.getString("invoiceDate"));
-			dateList.add(dateItem);
-		}
-		connection.close();
-		return dateList;
-		} catch (Exception ex) {
-	        System.out.println(ex.getMessage());
+		if(connect()) {
+			PreparedStatement stmt = connection.prepareStatement(query);
+			stmt.setString(1, user);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				DateInvoiceNumber dateItem= new DateInvoiceNumber(rs.getInt("userID"), 
+						rs.getInt("invoiceID"), 
+						rs.getString("invoiceDate"));
+				dateList.add(dateItem);
+			}
+			connection.close();
+			return dateList;
+		}} catch (Exception ex) {
+	        System.out.println("error - could not get invoice dates\n" + ex.getMessage());
 		}
 		return null;
 		
@@ -115,23 +115,23 @@ public class DatabaseUtility {
 		List<InvoiceItem> items = new ArrayList<InvoiceItem>();
 		String query = "select * from user natural join InvoiceItem natural join product where invoiceID = ?";
 		try {
-		connect();
-		PreparedStatement stmt = connection.prepareStatement(query);
-		stmt.setInt(1, invoiceID);
-		ResultSet rs = stmt.executeQuery();
-		while(rs.next()) {
-			InvoiceItem ii = new InvoiceItem(rs.getInt("productID"), 
-					rs.getString("productName"), 
-					rs.getString("description"), rs.getInt("price"), rs.getInt("quantity"));
-			items.add(ii);
-		}
-		Invoice invoice = new Invoice(fullName, id);
-		invoice.setItemList(items);
-		invoice.setInvoiceID(invoiceID);
-		connection.close();
-		return invoice;
-		} catch (Exception ex) {
-	        System.out.println(ex.getMessage());
+		if(connect()) {
+			PreparedStatement stmt = connection.prepareStatement(query);
+			stmt.setInt(1, invoiceID);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				InvoiceItem ii = new InvoiceItem(rs.getInt("productID"), 
+						rs.getString("productName"), 
+						rs.getString("description"), rs.getInt("price"), rs.getInt("quantity"));
+				items.add(ii);
+			}
+			Invoice invoice = new Invoice(fullName, id);
+			invoice.setItemList(items);
+			invoice.setInvoiceID(invoiceID);
+			connection.close();
+			return invoice;
+		}} catch (Exception ex) {
+	        System.out.println("error - could not get invoice\n" + ex.getMessage());
 		}
 		return null;
 	}
@@ -146,21 +146,21 @@ public class DatabaseUtility {
 		List<Delivery> dateList = new ArrayList<Delivery>();
 		String query = "Select * from deliveries natural join invoiceItems where driverID = ? and date = ?";
 		try {
-		connect();
-		PreparedStatement stmt = connection.prepareStatement(query);
-		stmt.setInt(1, driverID);
-		stmt.setString(2, date);
-		ResultSet rs = stmt.executeQuery();
-		while(rs.next()) {
-			Delivery dateItem= new Delivery(rs.getInt("deliveryID"), 
-					rs.getInt("employeeID"), 
-					rs.getString("invoiceDate"), rs.getInt("invoiceID"), rs.getString("status"));
-			dateList.add(dateItem);
-		}
-		connection.close();
-		return dateList;
-		} catch (Exception ex) {
-	        System.out.println(ex.getMessage());
+			if(connect()) {
+				PreparedStatement stmt = connection.prepareStatement(query);
+				stmt.setInt(1, driverID);
+				stmt.setString(2, date);
+				ResultSet rs = stmt.executeQuery();
+				while(rs.next()) {
+					Delivery dateItem= new Delivery(rs.getInt("deliveryID"), 
+							rs.getInt("employeeID"), 
+							rs.getString("invoiceDate"), rs.getInt("invoiceID"), rs.getString("status"));
+					dateList.add(dateItem);
+				}
+				connection.close();
+				return dateList;
+			}} catch (Exception ex) {
+	        System.out.println("error - could not retreive deliveries list" + ex.getMessage());
 		}
 		return null;
 	}
@@ -172,18 +172,19 @@ public class DatabaseUtility {
 	 */
 	public String getUserFullNameByID(int id) {
 		String fullName = "";
-		try { connect();
-	        String query = "SELECT * FROM user where userID= " + '"'+id+'"';
-	        PreparedStatement statement = connection.prepareStatement(query);
-	        ResultSet resultSet = statement.executeQuery();
-	        while (resultSet.next()) {
-	            fullName = fullName + resultSet.getString("firstName") + " " + resultSet.getString("lastName");
-
-	        }
-	        connection.close();
-	        return fullName;
-	    } catch (Exception ex) {
-	        System.out.println("error - could not check username and password\n" + ex.getMessage());
+		try { 
+			if(connect()) {
+		        String query = "SELECT * FROM user where userID= " + '"'+id+'"';
+		        PreparedStatement statement = connection.prepareStatement(query);
+		        ResultSet resultSet = statement.executeQuery();
+		        while (resultSet.next()) {
+		            fullName = fullName + resultSet.getString("firstName") + " " + resultSet.getString("lastName");
+	
+		        }
+		        connection.close();
+		        return fullName;
+			}} catch (Exception ex) {
+	        System.out.println("error - could not get full name\n" + ex.getMessage());
 	    }
 	    return null;
 	}
@@ -195,18 +196,19 @@ public class DatabaseUtility {
 	 */
 	public String getUserFullName(String user) {
 		String fullName = "";
-		try { connect();
-	        String query = "SELECT * FROM user where userName= " + '"'+user+'"';
-	        PreparedStatement statement = connection.prepareStatement(query);
-	        ResultSet resultSet = statement.executeQuery();
-	        while (resultSet.next()) {
-	            fullName = fullName + resultSet.getString("firstName") + " " + resultSet.getString("lastName");
-
-	        }
-	        connection.close();
-	        return fullName;
-	    } catch (Exception ex) {
-	        System.out.println("error - Could not retreive user name\n" + ex.getMessage());
+		try { 
+			if(connect()) {
+		        String query = "SELECT * FROM user where userName= " + '"'+user+'"';
+		        PreparedStatement statement = connection.prepareStatement(query);
+		        ResultSet resultSet = statement.executeQuery();
+		        while (resultSet.next()) {
+		            fullName = fullName + resultSet.getString("firstName") + " " + resultSet.getString("lastName");
+	
+		        }
+		        connection.close();
+		        return fullName;
+			}} catch (Exception ex) {
+	        System.out.println("error - Could not retreive user full name\n" + ex.getMessage());
 	    }
 	    return null;
 	}
@@ -218,17 +220,18 @@ public class DatabaseUtility {
 	 */
 	public int getUserIDByUserName(String userName) {
 		int id = 0;
-		try { connect();
-	        String query = "SELECT userID FROM user where userName= " + '"'+userName+'"';
-	        PreparedStatement statement = connection.prepareStatement(query);
-	        ResultSet resultSet = statement.executeQuery();
-	        while (resultSet.next()) {
-	            id = resultSet.getInt("userID");
-	        }
-	        connection.close();
-	        return id;
-	    } catch (Exception ex) {
-	        System.out.println("error - could not check username and password\n" + ex.getMessage());
+		try { 
+			if(connect()) {
+		        String query = "SELECT userID FROM user where userName= " + '"'+userName+'"';
+		        PreparedStatement statement = connection.prepareStatement(query);
+		        ResultSet resultSet = statement.executeQuery();
+		        while (resultSet.next()) {
+		            id = resultSet.getInt("userID");
+		        }
+		        connection.close();
+		        return id;
+			}} catch (Exception ex) {
+	        System.out.println("error - could not check username\n" + ex.getMessage());
 	    }
 	    return id;
 	}
@@ -239,18 +242,50 @@ public class DatabaseUtility {
 	 */
 	public int getNewInvoiceID() {
 		int id = 0;
-		try { connect();
-	        String query = "Select MAX(invoiceID) as max from invoiceItem";
-	        PreparedStatement statement = connection.prepareStatement(query);
-	        ResultSet resultSet = statement.executeQuery();
-	        while (resultSet.next()) {
-	            id = resultSet.getInt("max");
-	        }
-	        connection.close();
-	        return id+1;
-	    } catch (Exception ex) {
-	        System.out.println("error - could not check username and password\n" + ex.getMessage());
+		try { 
+			if(connect()) {
+		        String query = "Select MAX(invoiceID) as max from invoiceItem";
+		        PreparedStatement statement = connection.prepareStatement(query);
+		        ResultSet resultSet = statement.executeQuery();
+		        while (resultSet.next()) {
+		            id = resultSet.getInt("max");
+		        }
+		        connection.close();
+		        return id+1;
+			}} catch (Exception ex) {
+	        System.out.println("error - could not generate new ID\n" + ex.getMessage());
 	    }
 	    return id;
+	}
+	
+	/**
+	 * Method for inserting new invoices into the connected database; itemID is auto-incremented by the DB
+	 * and invoiceID is generated by the getNewInvoiceID in class method
+	 * @param (int) - userID; unique userID
+	 * @param (String) - invoiceDate; date of invoice YYYY-MM-DD format is required
+	 * @param (int) - productID; unique productID
+	 * @param (int) - quantity; quantity of item
+	 * @return (Boolean) - returns true on successful insert, else false
+	 */
+	public Boolean insertInvoice(int userID, String invoiceDate, int productID, int quantity) {
+		int invoiceID = getNewInvoiceID();
+		try {
+			if(connect()) {
+				String insert = "Insert into invoiceItem (invoiceID, userID, invoiceDate, productID, quantity)"
+						+ "values(?,?,?,?,?)";
+		        PreparedStatement stmt = connection.prepareStatement(insert);
+		        stmt.setInt(1, invoiceID);
+				stmt.setInt(2, userID);
+				stmt.setString(3, invoiceDate);
+				stmt.setInt(4, productID);
+				stmt.setInt(5, quantity);
+				int row = stmt.executeUpdate();
+	            System.out.println("Rows affected: " + row);//1
+				connection.close();
+				return true;
+			}} catch (Exception ex) {
+	        System.out.println("error - could not insert into DB see message\n" + ex.getMessage());
+		}
+		return false;
 	}
 }
