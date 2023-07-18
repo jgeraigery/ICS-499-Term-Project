@@ -28,10 +28,10 @@ public class DatabaseUtility {
 	public boolean connect() {
 	        try {
 				//Each user will need to enter their own username and password for the database
-//	            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Strangerdanger");
+	            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Strangerdanger");
             
 	            // Thomas's connection
-	            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Quintav85$311");
+//	            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Quintav85$311");
             
 	            // Alexey's connection
               //connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "ics311");
@@ -54,6 +54,7 @@ public class DatabaseUtility {
 	    UserBuilder users = User.withDefaultPasswordEncoder();
 
 	    try {
+	    	if(connect()) {
 	        String query = "SELECT * FROM user";
 	        PreparedStatement statement = connection.prepareStatement(query);
 	        ResultSet resultSet = statement.executeQuery();
@@ -64,7 +65,7 @@ public class DatabaseUtility {
 	            .build());
 	        }
 	        connection.close();
-	    } catch (Exception ex) {
+	    	}} catch (Exception ex) {
 	        System.out.println("error - could not get user list\n" + ex.getMessage());
 	    }
 	    return userList;
