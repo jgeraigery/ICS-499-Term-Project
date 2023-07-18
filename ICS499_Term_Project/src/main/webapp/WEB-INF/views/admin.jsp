@@ -4,6 +4,7 @@
 <% NavigationController control = new NavigationController(); %> 
 <%@page import="com.abc.termproject.utils.*"%>   
 <%  DatabaseUtility db = new DatabaseUtility(); %> 
+<%  ReadUtilityCSV readCSVFile = new ReadUtilityCSV(); %> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,8 +13,18 @@
 	<link rel="stylesheet" href="./adminstyle.css">
 </head>
 <body>
-
 <h1>Welcome <%= db.getUserFullName(control.getCurrentUser()) %></h1>
+
+<button class="ReadUtilityCSV" onclick="executeReadCSV()"> Invoice </button>
+<script>
+function executeReadCSV() {
+    if (event.target === document.querySelector('.ReadUtilityCSV')) {
+        <% readCSVFile.readCSV(); %>
+    }
+}
+</script>
+
+
 <button class="logout" onclick="window.location.href='http://localhost:8080/login'">Log Out</button>
 <div class="row">
 	<div class="column1">
@@ -34,6 +45,8 @@
     document.getElementById("delivListBuilder").innerHTML = text;
     </script>
     <script>
+    
+    
     function showDelivView(i) {
         const list = ["1 Banana", "2 Banana", "3 Banana", "4 Banana"];
         

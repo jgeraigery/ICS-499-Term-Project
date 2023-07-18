@@ -30,7 +30,10 @@ public class DatabaseUtility {
 				//Each user will need to enter their own username and password for the database
 //	            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Strangerdanger");
 	            // Thomas's connection
-	            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Quintav85$311");
+	            //connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Quintav85$311");
+	        	
+	        	connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "root");
+	        	//Ahmad's Connection
 	            return true;
 	        } catch (Exception ex) {
 	            System.out.println("error - database did not connect\n" + ex.getMessage());			}
