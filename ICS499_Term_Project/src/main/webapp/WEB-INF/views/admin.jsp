@@ -36,6 +36,7 @@ function executeReadCSV() {
 	});
 </script>
 
+
 <button class="logout" onclick="window.location.href='http://localhost:8080/login'">Log Out</button>
 <div class="row">
 	<div class="column1">
