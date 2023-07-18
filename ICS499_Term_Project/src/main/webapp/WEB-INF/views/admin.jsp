@@ -14,16 +14,27 @@
 </head>
 <body>
 <h1>Welcome <%= db.getUserFullName(control.getCurrentUser()) %></h1>
-
+<!--  
 <button class="ReadUtilityCSV" onclick="executeReadCSV()"> Invoice </button>
 <script>
 function executeReadCSV() {
     if (event.target === document.querySelector('.ReadUtilityCSV')) {
-        <% readCSVFile.readCSV(); %>
+        <% //readCSVFile.readCSV(); %>
     }
 }
 </script>
+-->
 
+<!-- Currently this button only opens the file directory, script will be moved in a future push, this was for basic testing -->
+<button id="readCSV" type="button">Upload Invoice</button>
+<script>
+	const readCSV = document.getElementById("readCSV");
+	readCSV.addEventListener("click", function(e) {
+		window.showDirectoryPicker({
+			startIn: 'desktop'
+		});
+	});
+</script>
 
 <button class="logout" onclick="window.location.href='http://localhost:8080/login'">Log Out</button>
 <div class="row">
