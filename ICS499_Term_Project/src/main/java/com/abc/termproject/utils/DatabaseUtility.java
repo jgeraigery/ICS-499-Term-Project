@@ -30,6 +30,8 @@ public class DatabaseUtility {
 //	            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Strangerdanger");
 	            // Thomas's connection
 	            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Quintav85$311");
+	            // Alexey's connection
+                //connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "ics311");
 	            return true;
 	        } catch (Exception ex) {
 	            System.out.println("error - database did not connect\n" + ex.getMessage());			}
