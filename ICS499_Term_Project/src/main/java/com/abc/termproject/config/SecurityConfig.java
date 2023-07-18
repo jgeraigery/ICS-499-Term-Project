@@ -22,7 +22,7 @@ public class SecurityConfig {
 	@Bean
 	public UserDetailsService user() {
 		DatabaseUtility connection = new DatabaseUtility();
-		connection.connect();
+//		connection.connect();
 		List <UserDetails> userList = connection.getUsers();
 		return new InMemoryUserDetailsManager(userList);
 	}

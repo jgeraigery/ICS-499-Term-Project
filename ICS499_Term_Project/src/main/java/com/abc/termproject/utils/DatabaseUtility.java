@@ -28,10 +28,10 @@ public class DatabaseUtility {
 	public boolean connect() {
 	        try {
 				//Each user will need to enter their own username and password for the database
-//	            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Strangerdanger");
+	            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Strangerdanger");
             
 	            // Thomas's connection
-	            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Quintav85$311");
+//	            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Quintav85$311");
             
 	            // Alexey's connection
               //connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "ics311");
@@ -54,6 +54,7 @@ public class DatabaseUtility {
 	    UserBuilder users = User.withDefaultPasswordEncoder();
 
 	    try {
+	    	if(connect()) {
 	        String query = "SELECT * FROM user";
 	        PreparedStatement statement = connection.prepareStatement(query);
 	        ResultSet resultSet = statement.executeQuery();
@@ -64,7 +65,7 @@ public class DatabaseUtility {
 	            .build());
 	        }
 	        connection.close();
-	    } catch (Exception ex) {
+	    	}} catch (Exception ex) {
 	        System.out.println("error - could not get user list\n" + ex.getMessage());
 	    }
 	    return userList;
@@ -174,8 +175,9 @@ public class DatabaseUtility {
 		String fullName = "";
 		try { 
 			if(connect()) {
-		        String query = "SELECT * FROM user where userID= " + '"'+id+'"';
+		        String query = "SELECT * FROM user where userID= ?";
 		        PreparedStatement statement = connection.prepareStatement(query);
+		        statement.setInt(1, id);
 		        ResultSet resultSet = statement.executeQuery();
 		        while (resultSet.next()) {
 		            fullName = fullName + resultSet.getString("firstName") + " " + resultSet.getString("lastName");
@@ -198,8 +200,9 @@ public class DatabaseUtility {
 		String fullName = "";
 		try { 
 			if(connect()) {
-		        String query = "SELECT * FROM user where userName= " + '"'+user+'"';
+		        String query = "SELECT * FROM user where userName = ?";
 		        PreparedStatement statement = connection.prepareStatement(query);
+		        statement.setString(1, user);
 		        ResultSet resultSet = statement.executeQuery();
 		        while (resultSet.next()) {
 		            fullName = fullName + resultSet.getString("firstName") + " " + resultSet.getString("lastName");
@@ -222,8 +225,9 @@ public class DatabaseUtility {
 		int id = 0;
 		try { 
 			if(connect()) {
-		        String query = "SELECT userID FROM user where userName= " + '"'+userName+'"';
+		        String query = "SELECT userID FROM user where userName = ? ";
 		        PreparedStatement statement = connection.prepareStatement(query);
+		        statement.setString(1, userName);
 		        ResultSet resultSet = statement.executeQuery();
 		        while (resultSet.next()) {
 		            id = resultSet.getInt("userID");
@@ -285,6 +289,50 @@ public class DatabaseUtility {
 				return true;
 			}} catch (Exception ex) {
 	        System.out.println("error - could not insert into DB see message\n" + ex.getMessage());
+		}
+		return false;
+	}
+	
+	/**
+	 * Method updates status field for a delivery in db to delivered
+	 * @param (int) - deliveryID; unique delivery id number
+	 * @return (Boolean) - return true on successful update, else false
+	 */
+	public Boolean verifyDelivery(int deliveryID) {
+		try {
+			if(connect()) {
+				String insert = "Update deliveries set status = ? where deliveryID = ?";
+		        PreparedStatement stmt = connection.prepareStatement(insert);
+		        stmt.setString(1, "delivered");
+				stmt.setInt(2, deliveryID);
+				int row = stmt.executeUpdate();
+	            System.out.println("Rows affected: " + row);//1
+				connection.close();
+				return true;
+			}} catch (Exception ex) {
+	        System.out.println("error - could not update database\n" + ex.getMessage());
+		}
+		return false;
+	}
+	
+	/**
+	 * Method updates status field for a delivery in db to delivered
+	 * @param (int) - deliveryID; unique delivery id number
+	 * @return (Boolean) - return true on successful update, else false
+	 */
+	public Boolean cancelDelivery(int deliveryID) {
+		try {
+			if(connect()) {
+				String insert = "Update deliveries set status = ? where deliveryID = ?";
+		        PreparedStatement stmt = connection.prepareStatement(insert);
+		        stmt.setString(1, "canceled");
+				stmt.setInt(2, deliveryID);
+				int row = stmt.executeUpdate();
+	            System.out.println("Rows affected: " + row);//1
+				connection.close();
+				return true;
+			}} catch (Exception ex) {
+	        System.out.println("error - could not update database\n" + ex.getMessage());
 		}
 		return false;
 	}
