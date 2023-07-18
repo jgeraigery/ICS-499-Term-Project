@@ -20,7 +20,7 @@ public class UserUtility {
             
             String date = userInvoiceList.get(i).getDate();
             int userID = userInvoiceList.get(i).getUserID();
-            int invoiceID = userInvoiceList.get(i).getUserID();
+            int invoiceID = userInvoiceList.get(i).getInvoiceID();
             
             Invoice myInvoice = db.getInvoice(date, userID, invoiceID);
             
@@ -35,11 +35,11 @@ public class UserUtility {
         
         String listText = "";
         
-        for (int i = 0; i < userInvoiceList.size(); i++) {
+        for (int i = 0; i < userInvoiceList.size(); ++i) {
             
             String date = userInvoiceList.get(i).getDate();
             int userID = userInvoiceList.get(i).getUserID();
-            int invoiceID = userInvoiceList.get(i).getUserID();
+            int invoiceID = userInvoiceList.get(i).getInvoiceID();
             
             listText += "<li><a href=\"#column2\" onclick=\"   showInvoiceView(" + i + ")   \">User ID: " +
                 userID + " | Invoice ID: " + invoiceID + " | Date: " + date + "</a></li>";
@@ -57,7 +57,7 @@ public class UserUtility {
             
             String date = userInvoiceList.get(i).getDate();
             int userID = userInvoiceList.get(i).getUserID();
-            int invoiceID = userInvoiceList.get(i).getUserID();
+            int invoiceID = userInvoiceList.get(i).getInvoiceID();
             
             Invoice myInvoice = db.getInvoice(date, userID, invoiceID);
             
