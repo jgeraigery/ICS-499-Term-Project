@@ -151,7 +151,7 @@ public class DatabaseUtility {
 				PreparedStatement stmt = connection.prepareStatement(query);
 				stmt.setInt(1, driverID);
 				stmt.setString(2, date);
-				stmt.setString(2, "in progress");
+				stmt.setString(3, "in progress");
 				ResultSet rs = stmt.executeQuery();
 				while(rs.next()) {
 					Delivery dateItem= new Delivery(rs.getInt("deliveryID"), 
