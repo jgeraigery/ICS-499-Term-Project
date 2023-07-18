@@ -145,12 +145,13 @@ public class DatabaseUtility {
 	 */
 	public List<Delivery> getDeliveries(int driverID, String date) {
 		List<Delivery> dateList = new ArrayList<Delivery>();
-		String query = "Select * from deliveries natural join invoiceItems where driverID = ? and date = ?";
+		String query = "Select * from deliveries natural join invoiceItems where driverID = ? and date = ? and status = ?";
 		try {
 			if(connect()) {
 				PreparedStatement stmt = connection.prepareStatement(query);
 				stmt.setInt(1, driverID);
 				stmt.setString(2, date);
+				stmt.setString(2, "in progress");
 				ResultSet rs = stmt.executeQuery();
 				while(rs.next()) {
 					Delivery dateItem= new Delivery(rs.getInt("deliveryID"), 
