@@ -143,7 +143,7 @@ public class DatabaseUtility {
 	 * @param (String) - date; date of delivers requested from the DB
 	 * @return List<Delivery> - dateList; List of all delivery objects for specified date in a pending status
 	 */
-	public List<Delivery> getDeliveries(int driverID, String date) {
+	public List<Delivery> getDeliveriesByDate(int driverID, String date) {
 		List<Delivery> dateList = new ArrayList<Delivery>();
 		String query = "Select * from deliveries natural join invoiceItems where driverID = ? and date = ? and status = ?";
 		try {
@@ -156,7 +156,7 @@ public class DatabaseUtility {
 				while(rs.next()) {
 					Delivery dateItem= new Delivery(rs.getInt("deliveryID"), 
 							rs.getInt("employeeID"), 
-							rs.getString("invoiceDate"), rs.getInt("invoiceID"), rs.getString("status"));
+							rs.getString("invoiceDate"), rs.getInt("customerID"), rs.getInt("invoiceID"), rs.getString("status"));
 					dateList.add(dateItem);
 				}
 				connection.close();
@@ -168,12 +168,41 @@ public class DatabaseUtility {
 	}
 	
 	/**
-	 * Method takes in driverID and date of deliveries to return a list of Delivery objects that are in progress
+	 * Method gets all deliveries that are 'in progress' for a single driver by ID
+	 * @param (int) - driverID; unique driver ID
+	 * @return (List<Delivery>) - deliveryList; list of all deliveries for a single driver
+	 */
+	public List<Delivery> getDeliveriesByDriver(int driverID) {
+		List<Delivery> deliveryList = new ArrayList<Delivery>();
+		String query = "Select * from deliveries natural join invoiceItems where employeeID = ? and status = ?";
+		try {
+			if(connect()) {
+				PreparedStatement stmt = connection.prepareStatement(query);
+				stmt.setInt(1, driverID);
+				stmt.setString(2, "in progress");
+				ResultSet rs = stmt.executeQuery();
+				while(rs.next()) {
+					Delivery dateItem= new Delivery(rs.getInt("deliveryID"), 
+							rs.getInt("employeeID"), 
+							rs.getString("date"), rs.getInt("customerID"), rs.getInt("invoiceID"), rs.getString("status"));
+					deliveryList.add(dateItem);
+				}
+				connection.close();
+				return deliveryList;
+			}} catch (Exception ex) {
+	        System.out.println("error - could not retreive deliveries list" + ex.getMessage());
+		}
+		return null;
+	}
+	
+	
+	/**
+	 * Method takes in driverID and date of deliveries to return a list of ALL Delivery objects that are in progress
 	 * @return List<Delivery> - dateList; List of all delivery objects
 	 */
 	public List<Delivery> getDeliveriesAll() {
 		List<Delivery> dateList = new ArrayList<Delivery>();
-		String query = "Select * from deliveries natural join invoiceItems where status = ?";
+		String query = "Select * from deliveries where status = ?";
 		try {
 			if(connect()) {
 				PreparedStatement stmt = connection.prepareStatement(query);
@@ -182,7 +211,7 @@ public class DatabaseUtility {
 				while(rs.next()) {
 					Delivery dateItem= new Delivery(rs.getInt("deliveryID"), 
 							rs.getInt("employeeID"), 
-							rs.getString("invoiceDate"), rs.getInt("invoiceID"), rs.getString("status"));
+							rs.getString("invoiceDate"), rs.getInt("customerID"), rs.getInt("invoiceID"), rs.getString("status"));
 					dateList.add(dateItem);
 				}
 				connection.close();

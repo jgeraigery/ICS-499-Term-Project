@@ -5,13 +5,15 @@ public class Delivery {
 	private int driverID;
 	private String invoiceDate;
 	private int customerID;
+	private int invoiceID;
 	private String status;
 	
-	public Delivery(int deliveryID, int driverID, String invoiceDate, int customerID, String status) {
+	public Delivery(int deliveryID, int driverID, String invoiceDate, int customerID, int invoiceID, String status) {
 		this.setDeliveryID(deliveryID);
 		this.setDriverID(driverID);
 		this.setInvoiceDate(invoiceDate);
 		this.setCustomerID(customerID);
+		this.setInvoiceID(invoiceID);
 		this.setStatus(status);
 	}
 
@@ -53,5 +55,13 @@ public class Delivery {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public int getInvoiceID() {
+		return invoiceID;
+	}
+
+	public void setInvoiceID(int invoiceID) {
+		this.invoiceID = invoiceID;
 	}
 }
