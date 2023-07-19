@@ -1,4 +1,4 @@
-package com.abc.termproject.servlet;
+/*package com.abc.termproject.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -41,4 +41,4 @@ public class UploadServlet extends HttpServlet {
 		RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/views/uploadsuccess.jsp");
 		dispatcher.forward(req, resp);
 	}
-}
+}*/
