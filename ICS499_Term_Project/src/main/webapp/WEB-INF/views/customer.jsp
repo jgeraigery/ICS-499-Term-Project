@@ -32,17 +32,43 @@
         </ul>
 	</div>
 	
-	<%= userUtil.invoiceInfoBuilder(db.getInvoiceDates(control.getCurrentUser())) %>
+	<div class="column2" id="column2" style="display:none">
+    </div>
 
-    <% // We still need this script to show and hide the invoice details %>
+    <% // We need this script to show and hide the invoice details and to general the invoice view %>
     <script>
-    function showInvoiceView(i) {
+    function showInvoiceView() {
         
-        x = document.getElementById("invoice" + i);
+        x = document.getElementById("column2");
         
         if (x.style.display == "none") {
         	
             x.style.display = "block";
+            
+            let date = arguments[0];
+            
+            let myInvoiceTotal = arguments[1];
+            
+            let myInvoiceItemListLength = arguments[2];
+            
+            let text = "<p>Invoice information for Date " + date + 
+            "</p><p>Invoice Total: $" + myInvoiceTotal + "</p><ul style=\"list-style-type: none\">";
+            
+            for (let i = 0; i < myInvoiceItemListLength; i++) {
+            	
+            	let productID = arguments[5 * i + 3];
+                let name = arguments[5 * i + 4];
+                let description = arguments[5 * i + 5];
+                let price = arguments[5 * i + 6];
+                let quantity = arguments[5 * i + 7];
+            	
+            	text += "<li>productID: " + productID + " | name: " + name + " | des: " + description + 
+                " | price: $" + price + " | quantity: " + quantity + "</li>";
+            }
+            
+            text += "</ul>";
+            
+            document.getElementById("column2").innerHTML = text;
             
         } else {
         	
