@@ -39,6 +39,10 @@ public class SecurityConfig {
             auth.requestMatchers("/customer").hasRole("USER");
             auth.requestMatchers("/driver").hasRole("DRIVER");
             auth.requestMatchers("/admin").hasRole("ADMIN");
+            // not sure if 3 lines below are needed, this was trying to deal with errors and it had no effect it would seem
+            auth.requestMatchers("/insert.php").hasRole("ADMIN");
+            auth.requestMatchers("/upload").hasRole("ADMIN");
+            auth.requestMatchers("/uploadsuccess").hasRole("ADMIN");
             auth.anyRequest().authenticated();
             })
             .formLogin(Customizer.withDefaults())
