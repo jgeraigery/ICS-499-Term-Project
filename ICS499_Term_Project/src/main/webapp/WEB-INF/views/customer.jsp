@@ -18,8 +18,16 @@
 
 <body>
 
+<%!
+
+public void testy() {
+    
+}
+
+%>
+
 <h1>Welcome <%= db.getUserFullName(control.getCurrentUser()) %></h1>
-<h1>All Invoice Total: $<%= userUtil.totalInvoiceTotal(db.getInvoiceDates(control.getCurrentUser())) %></h1>
+<h2>All Invoice Total: $<%= userUtil.totalInvoiceTotal(db.getInvoiceDates(control.getCurrentUser())) %></h2>
 
 <button class="logout" onclick="window.location.href='http://localhost:8080/login'">Log Out</button>
 
@@ -35,7 +43,7 @@
 	<div class="column2" id="column2" style="display:none">
     </div>
 
-    <% // We need this script to show and hide the invoice details and to general the invoice view %>
+    <!-- We need this script to show and hide the invoice details and to general the invoice view -->
     <script>
     function showInvoiceView() {
         
@@ -70,6 +78,8 @@
             
             text += "</ul>";
             
+            //let text = "<h1>Welcome " + <\%= db.getUserFullName(control.getCurrentUser()) \%> +  "</h1>";
+            
             document.getElementById("column2").innerHTML = text;
             
         } else {
@@ -79,6 +89,7 @@
         }
     }
     </script>
+    
     
 </div>
 

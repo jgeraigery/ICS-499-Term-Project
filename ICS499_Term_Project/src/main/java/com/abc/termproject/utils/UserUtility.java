@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.abc.termproject.entity.DateInvoiceNumber;
+import com.abc.termproject.entity.Delivery;
 import com.abc.termproject.entity.Invoice;
 import com.abc.termproject.entity.InvoiceItem;
+
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -49,7 +51,7 @@ public class UserUtility {
             int invoiceID = userInvoiceList.get(i).getInvoiceID();
             
             listText += "<li><a href=\"#column2\" onclick=\"   " + invoiceDetailsParameterBuilder(date, userID, invoiceID) + "   \">User ID: " +
-                userID + " | Invoice ID: " + invoiceID + " | Date: " + date + "</a></li>";
+                userID + " | Invoice ID: " + invoiceID + " | Date: \'" + date + "\'</a></li>";
         }
         
         return listText;
@@ -78,6 +80,67 @@ public class UserUtility {
             
             functionParameters += ", " + productID + ", \'" + name + "\', \'" + description + "\', " + price + ", " + quantity;
         }
+        
+        functionParameters += ")";
+        
+        return functionParameters;
+        
+    }
+    
+    // Builds the list of all deliveries for a driver
+    public String delivListBuilderDriver(List<Delivery> driverDelivList) {
+        
+        String listText = "";
+        
+        for (int i = 0; i < driverDelivList.size(); i++) {
+            
+            Delivery myDelivery = driverDelivList.get(i);
+            
+            int deliveryID = myDelivery.getDeliveryID();
+            int driverID = myDelivery.getDriverID();
+            String invoiceDate = myDelivery.getInvoiceDate();
+            int customerID = myDelivery.getCustomerID();
+            int invoiceID = myDelivery.getInvoiceID();
+            String status = myDelivery.getStatus();
+            
+            listText += "<li><a href=\"#column2\" onclick=\"   " + delivDetailsParameterBuilder(myDelivery) + "   \">delivery ID: " +
+                deliveryID + " | driver ID: " + driverID + " | invoice Date: \'" + invoiceDate + "\' | customer ID: " + customerID + 
+                " | invoice ID: " + invoiceID + " | status: \'" + status + "\'</a></li>";
+        }
+        
+        return listText;
+    }
+    
+    // Builds the list of all parameters for showInvoiceView() in driver.jsp to display a deliv
+    public String delivDetailsParameterBuilder(Delivery myDelivery) {
+        
+        //String functionParameters = "";
+        
+        int deliveryID = myDelivery.getDeliveryID();
+        int driverID = myDelivery.getDriverID();
+        String invoiceDate = myDelivery.getInvoiceDate();
+        int customerID = myDelivery.getCustomerID();
+        int invoiceID = myDelivery.getInvoiceID();
+        String status = myDelivery.getStatus();
+        
+        //double myInvoiceTotal = 0.00;
+        
+        //List<InvoiceItem> myInvoiceItemList = myInvoice.getItemList();
+        
+        //int myInvoiceItemListLength = myInvoiceItemList.size();
+        
+        String functionParameters = "showDelivView(" + deliveryID + ", " + driverID + ", \'" + invoiceDate + "\', " + customerID + ", " + invoiceID + ", \'" + status + "\'";
+        
+        //for (int j = 0; j < myInvoiceItemListLength; j++) {
+            
+            //int productID = myInvoiceItemList.get(j).getProductID();
+            //String name = myInvoiceItemList.get(j).getName();
+            //String description = myInvoiceItemList.get(j).getDescription();
+            //double price = myInvoiceItemList.get(j).getPrice();
+            //int quantity = myInvoiceItemList.get(j).getQuantity();
+            
+            //functionParameters += ", " + productID + ", \'" + name + "\', \'" + description + "\', " + price + ", " + quantity;
+        //}
         
         functionParameters += ")";
         
