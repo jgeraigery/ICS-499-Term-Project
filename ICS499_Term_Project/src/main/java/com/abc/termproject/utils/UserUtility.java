@@ -66,7 +66,7 @@ public class UserUtility {
         
         int myInvoiceItemListLength = myInvoiceItemList.size();
         
-        String functionParameters = "showInvoiceView(\'" + date + "\', " + myInvoiceTotal + ", " + myInvoiceItemListLength;
+        String functionParameters = "showInvoiceView(" + userID + ", " + invoiceID + ", \'" + date + "\', " + myInvoiceTotal + ", " + myInvoiceItemListLength;
         
         for (int j = 0; j < myInvoiceItemListLength; j++) {
             
