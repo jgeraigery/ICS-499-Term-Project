@@ -123,24 +123,33 @@ public class UserUtility {
         int invoiceID = myDelivery.getInvoiceID();
         String status = myDelivery.getStatus();
         
+        Invoice myInvoice = db.getInvoice(invoiceDate, customerID, invoiceID);
+        
+        double myInvoiceTotal = myInvoice.getTotal();
+        
+        List<InvoiceItem> myInvoiceItemList = myInvoice.getItemList();
+        
+        int myInvoiceItemListLength = myInvoiceItemList.size();
+        
         //double myInvoiceTotal = 0.00;
         
         //List<InvoiceItem> myInvoiceItemList = myInvoice.getItemList();
         
         //int myInvoiceItemListLength = myInvoiceItemList.size();
         
-        String functionParameters = "showDelivView(" + deliveryID + ", " + driverID + ", \'" + invoiceDate + "\', " + customerID + ", " + invoiceID + ", \'" + status + "\'";
+        String functionParameters = "showDelivView(" + deliveryID + ", " + driverID + ", \'" + invoiceDate + "\', " + customerID + ", " + invoiceID + ", \'" + status + "\', " +
+            myInvoiceTotal + ", " + myInvoiceItemListLength;
         
-        //for (int j = 0; j < myInvoiceItemListLength; j++) {
+        for (int j = 0; j < myInvoiceItemListLength; j++) {
             
-            //int productID = myInvoiceItemList.get(j).getProductID();
-            //String name = myInvoiceItemList.get(j).getName();
-            //String description = myInvoiceItemList.get(j).getDescription();
-            //double price = myInvoiceItemList.get(j).getPrice();
-            //int quantity = myInvoiceItemList.get(j).getQuantity();
+            int productID = myInvoiceItemList.get(j).getProductID();
+            String name = myInvoiceItemList.get(j).getName();
+            String description = myInvoiceItemList.get(j).getDescription();
+            double price = myInvoiceItemList.get(j).getPrice();
+            int quantity = myInvoiceItemList.get(j).getQuantity();
             
-            //functionParameters += ", " + productID + ", \'" + name + "\', \'" + description + "\', " + price + ", " + quantity;
-        //}
+            functionParameters += ", " + productID + ", \'" + name + "\', \'" + description + "\', " + price + ", " + quantity;
+        }
         
         functionParameters += ")";
         
