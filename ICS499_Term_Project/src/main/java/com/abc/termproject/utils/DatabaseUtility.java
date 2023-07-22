@@ -175,7 +175,9 @@ public class DatabaseUtility {
 	public List<Delivery> getDeliveriesByDriver(int driverID) {
 		List<Delivery> deliveryList = new ArrayList<Delivery>();
 		//String query = "Select * from deliveries natural join invoiceItems where employeeID = ? and status = ?";
-		String query = "Select * from deliveries natural join invoiceitem where employeeID = ? and status = ?";
+		//String query = "Select * from deliveries natural join invoiceitem where employeeID = ? and status = ?";
+		String query = "Select * from deliveries where employeeID = ? and status = ?";
+		
 		try {
 			if(connect()) {
 				PreparedStatement stmt = connection.prepareStatement(query);

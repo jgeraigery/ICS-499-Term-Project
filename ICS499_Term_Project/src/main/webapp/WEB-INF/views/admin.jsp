@@ -195,28 +195,28 @@ function executeReadCSV() {
             let invoiceID = arguments[4];
             let status = arguments[5];
             
-            //let myInvoiceTotal = arguments[6];
+            let myInvoiceTotal = arguments[6];
             
-            //let myInvoiceItemListLength = arguments[7];
+            let myInvoiceItemListLength = arguments[7];
             
-            let text = "<p>Delivery information for deliveryID: " + deliveryID + " | driverID: " + driverID + " | invoiceDate: " + invoiceDate +
+            let text = "<p>Invoice information for deliveryID: " + deliveryID + " | driverID: " + driverID + " | invoiceDate: " + invoiceDate +
             " | customerID: " + customerID + " | invoiceID: " + invoiceID + " | status: " + status + "</p>";
             
-            //text += "<p>Invoice Total: $" + myInvoiceTotal + "</p>";
+            text += "<p>Invoice Total: $" + myInvoiceTotal + "</p>";
             
             text += "<ul style=\"list-style-type: none\">";
             
-            //for (let i = 0; i < myInvoiceItemListLength; i++) {
+            for (let i = 0; i < myInvoiceItemListLength; i++) {
                 
-                //let productID = arguments[5 * i + 8];
-                //let name = arguments[5 * i + 9];
-                //let description = arguments[5 * i + 10];
-                //let price = arguments[5 * i + 11];
-                //let quantity = arguments[5 * i + 12];
+                let productID = arguments[5 * i + 8];
+                let name = arguments[5 * i + 9];
+                let description = arguments[5 * i + 10];
+                let price = arguments[5 * i + 11];
+                let quantity = arguments[5 * i + 12];
                 
-                //text += "<li>productID: " + productID + " | name: " + name + " | des: " + description + 
-                //" | price: $" + price + " | quantity: " + quantity + "</li>";
-            //}
+                text += "<li>productID: " + productID + " | name: " + name + " | des: " + description + 
+                " | price: $" + price + " | quantity: " + quantity + "</li>";
+            }
             
             text += "</ul>";
             
