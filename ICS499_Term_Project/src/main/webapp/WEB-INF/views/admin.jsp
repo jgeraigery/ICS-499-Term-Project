@@ -170,12 +170,6 @@ function executeReadCSV() {
 	<div class="column1">
 		<p>Deliveries for <%= db.getUserFullName(control.getCurrentUser()) %></p>
 		
-		<!-- Debug view -->
-        
-        <p><%= control.getCurrentUser() %></p>
-        <p><%= db.getUserIDByUserName(control.getCurrentUser()) %></p>
-        <p><%= db.getDeliveriesAll() %></p>
-		
         <ul style="list-style-type: none">
         <%= userUtil.delivListBuilderDriver(db.getDeliveriesAll()) %>
         </ul>

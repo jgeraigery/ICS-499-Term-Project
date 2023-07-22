@@ -23,13 +23,6 @@
 	
 		<p>Deliveries for <%= db.getUserFullName(control.getCurrentUser()) %></p>
 		
-		
-		<!-- Debug view -->
-		
-		<p><%= control.getCurrentUser() %></p>
-		<p><%= db.getUserIDByUserName(control.getCurrentUser()) %></p>
-		<p><%= db.getDeliveriesByDriver(db.getUserIDByUserName(control.getCurrentUser())) %></p>
-		
 		<ul style="list-style-type: none">
 		<%= userUtil.delivListBuilderDriver(db.getDeliveriesByDriver(db.getUserIDByUserName(control.getCurrentUser()))) %>
 		</ul>
