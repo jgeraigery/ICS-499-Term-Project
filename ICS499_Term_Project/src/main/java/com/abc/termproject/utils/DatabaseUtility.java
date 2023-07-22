@@ -331,8 +331,8 @@ public class DatabaseUtility {
 	 * @param (int) - quantity; quantity of item
 	 * @return (Boolean) - returns true on successful insert, else false
 	 */
-	public Boolean insertInvoice(int userID, String invoiceDate, int productID, int quantity) {
-		int invoiceID = getNewInvoiceID();
+	public Boolean insertInvoice(int invoiceID, int userID, String invoiceDate, int productID, int quantity) {
+//		int invoiceID = getNewInvoiceID();
 		try {
 			if(connect()) {
 				String insert = "Insert into invoiceItem (invoiceID, userID, invoiceDate, productID, quantity)"

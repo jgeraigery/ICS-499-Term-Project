@@ -5,18 +5,24 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import jakarta.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.abc.termproject.entity.InvoiceItem;
 import com.abc.termproject.utils.DatabaseUtility;
 
 @Controller
+//@RestController
 public class NavigationController {
 	
 	DatabaseUtility dbUtil = new DatabaseUtility();
@@ -45,25 +51,11 @@ public class NavigationController {
 		return "admin";
 	}
 	
-	// attempt to map post method in this class without using servlet only the controller and http request
-//	@PostMapping("/upload")
-//	public String upload(HttpServletRequest request) {
-//		String invoiceId = request.getParameter("invoiceId");
-//		String userId = request.getParameter("userId");
-//		String date = request.getParameter("date");
-//		String prodId = request.getParameter("prodId");
-//		String quantity = request.getParameter("quantity");
-//		
-	// i had this method adding invoiceId as well but had to change it due to merge conflicts
-//		dbUtil.insertInvoice(Integer.parseInt(invoiceId), Integer.parseInt(userId), date, Integer.parseInt(prodId), Integer.parseInt(quantity));
-//		
-//		return "uploadsuccess";
-//	}
-	
-//	@GetMapping("/upload")
-//	public String upload() {
-//		return "admin";
-//	}
+	// Post request method for adding invoice items to DB
+	@PostMapping(path="/admin")
+	public void upload(@RequestParam int invoiceId, @RequestParam int userId, @RequestParam String date, @RequestParam int prodId, @RequestParam int quantity) {
+		dbUtil.insertInvoice(invoiceId, userId, date, prodId, quantity);
+	}
 	
 	// Used to access the admin page manually
 	@GetMapping("/driver")
