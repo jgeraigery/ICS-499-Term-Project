@@ -5,24 +5,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import jakarta.servlet.http.HttpServletRequest;
-import java.security.Principal;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
-import com.abc.termproject.entity.InvoiceItem;
 import com.abc.termproject.utils.DatabaseUtility;
 
 @Controller
-//@RestController
 public class NavigationController {
 	
 	DatabaseUtility dbUtil = new DatabaseUtility();
@@ -57,7 +47,7 @@ public class NavigationController {
 		dbUtil.insertInvoice(invoiceId, userId, date, prodId, quantity);
 	}
 	
-	// Used to access the admin page manually
+	// Used to access the driver page manually
 	@GetMapping("/driver")
 	public String driver() {
 		return "driver";

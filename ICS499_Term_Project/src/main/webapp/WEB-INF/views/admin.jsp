@@ -3,8 +3,7 @@
 <%@page import="com.abc.termproject.controller.*"%>   
 <% NavigationController control = new NavigationController(); %> 
 <%@page import="com.abc.termproject.utils.*"%>   
-<%  DatabaseUtility db = new DatabaseUtility(); %> 
-<%  ReadUtilityCSV readCSVFile = new ReadUtilityCSV(); %> 
+<%  DatabaseUtility db = new DatabaseUtility(); %>  
 <%  UserUtility userUtil = new UserUtility(); %> 
 <!DOCTYPE html>
 <html>
