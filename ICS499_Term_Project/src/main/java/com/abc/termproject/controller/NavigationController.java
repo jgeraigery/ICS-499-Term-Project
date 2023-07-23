@@ -63,6 +63,53 @@ public class NavigationController {
 		return "driver";
 	}
 	
+	// Post request method for changing the status of a delivery
+    @PostMapping(path="/driver")
+    public void driverButtonAction(@RequestParam String command) {
+        
+        int deliveryID;
+        
+        //System.out.println(command);
+        //System.out.println(command.substring(0, 6));
+        
+        if (command.substring(0, 6).equals("Verify")) {
+            
+            try {
+                
+                deliveryID = Integer.parseInt(command.substring(7));
+                
+                //System.out.println(deliveryID);
+                
+                dbUtil.verifyDelivery(deliveryID);
+                
+                System.out.println("DeliveryID " + deliveryID + " was verified");
+                
+            } catch (Exception ex) {
+                
+                System.out.println("error - could not verify delivery\n" + ex.getMessage());
+                
+            }
+            
+        } else if (command.substring(0, 6).equals("Cancel")) {
+            
+            try {
+                
+                deliveryID = Integer.parseInt(command.substring(7));
+                
+                //System.out.println(deliveryID);
+                
+                dbUtil.cancelDelivery(deliveryID);
+                
+                System.out.println("DeliveryID " + deliveryID + " was cancelled");
+                
+            } catch (Exception ex) {
+                
+                System.out.println("error - could not cancel delivery\n" + ex.getMessage());
+                
+            }
+        }
+    }
+	
 	// Used to access the customer page manually
 	@GetMapping("/customer")
 	public String customer() {

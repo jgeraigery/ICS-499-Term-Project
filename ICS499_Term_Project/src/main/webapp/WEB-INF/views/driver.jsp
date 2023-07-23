@@ -72,9 +72,9 @@
             
             text += "</ul>";
             
-            text += "<button class=\"cancel\" onclick=\"\">Cancel Delivery</button>";
+            text += "<form action=\"/driver\" method=\"post\"><input type=\"submit\" name=\"command\" value=\"Verify " + deliveryID + "\"/></form>";
             
-            text += "<button class=\"verify\" onclick=\"\">Verify Delivery</button>";
+            text += "<form action=\"/driver\" method=\"post\"><input type=\"submit\" name=\"command\" value=\"Cancel " + deliveryID + "\"/></form>";
             
             document.getElementById("column2").innerHTML = text;
             

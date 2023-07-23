@@ -53,7 +53,7 @@
 
 <div class="row">
 	<div class="column1">
-		<p>Deliveries for <%= db.getUserFullName(control.getCurrentUser()) %></p>
+		<p>All Current Deliveries to View for <%= db.getUserFullName(control.getCurrentUser()) %></p>
 		
         <ul style="list-style-type: none">
         <%= userUtil.delivListBuilderDriver(db.getDeliveriesAll()) %>
@@ -104,10 +104,6 @@
             }
             
             text += "</ul>";
-            
-            text += "<button class=\"cancel\" onclick=\"\">Cancel Delivery</button>";
-            
-            text += "<button class=\"verify\" onclick=\"\">Verify Delivery</button>";
             
             document.getElementById("column2").innerHTML = text;
             
