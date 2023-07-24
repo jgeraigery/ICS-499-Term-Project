@@ -4,6 +4,7 @@
 <% NavigationController control = new NavigationController(); %> 
 <%@page import="com.abc.termproject.utils.*"%>   
 <%  DatabaseUtility db = new DatabaseUtility(); %>
+<%  UserUtility userUtil = new UserUtility(); %> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,45 +15,77 @@
 <body>
 
 <h1>Welcome <%= db.getUserFullName(control.getCurrentUser()) %></h1>
-<h2>YOU ARE ON THE DRIVER PAGE</h2>
 <button class="logout" onclick="window.location.href='http://localhost:8080/login'">Log Out</button>
+
 <div class="row">
+    
 	<div class="column1">
-		<p>Deliveries for [Today's Date]</p>
-		<ul id="delivListBuilder" style="list-style-type: none">   
+	
+		<p>Deliveries for <%= db.getUserFullName(control.getCurrentUser()) %></p>
+		
+		<ul style="list-style-type: none">
+		<%= userUtil.delivListBuilderDriver(db.getDeliveriesByDriver(db.getUserIDByUserName(control.getCurrentUser()))) %>
 		</ul>
 	</div>
+	
 	<div class="column2" id="column2" style="display:none">
 	</div>
-	<script>
-    const list = ["Delivery 1", "Delivery 2", "Delivery 3", "Delivery 4"];
-
-    let text = "";
-    for (let i = 0; i < list.length; i++) {
-    	text += "<li><a href=\"#column2\" onclick=\"showDelivView(" + i + ")\">" + list[i] + "</a></li>";
-    }
-
-    document.getElementById("delivListBuilder").innerHTML = text;
-    </script>
+	
     <script>
-    function showDelivView(i) {
-        const list = ["1 Banana", "2 Banana", "3 Banana", "4 Banana"];
+    function showDelivView() {
         
-        var x = document.getElementById("column2");
-        if (x.style.display === "none") {
+        x = document.getElementById("column2");
+        
+        if (x.style.display == "none") {
+            
             x.style.display = "block";
             
-            let text = "<p>Invoice information for Delivery " + (i + 1) +
-            "</p><ul style=\"list-style-type: none\"><li>" + list[i] +
-            "</li></ul><button class=\"cancel\" onclick=\"\">Cancel Delivery</button><button class=\"verify\" onclick=\"\">Verify Delivery</button>";
+            let deliveryID = arguments[0];
+            let driverID = arguments[1];
+            let invoiceDate = arguments[2];
+            let customerID = arguments[3];
+            let invoiceID = arguments[4];
+            let status = arguments[5];
+            
+            let myInvoiceTotal = arguments[6];
+            
+            let myInvoiceItemListLength = arguments[7];
+            
+            let text = "<p>Invoice information for deliveryID: " + deliveryID + " | driverID: " + driverID + " | invoiceDate: " + invoiceDate +
+            " | customerID: " + customerID + " | invoiceID: " + invoiceID + " | status: " + status + "</p>";
+            
+            text += "<p>Invoice Total: $" + myInvoiceTotal + "</p>";
+            
+            text += "<ul style=\"list-style-type: none\">";
+            
+            for (let i = 0; i < myInvoiceItemListLength; i++) {
+                
+                let productID = arguments[5 * i + 8];
+                let name = arguments[5 * i + 9];
+                let description = arguments[5 * i + 10];
+                let price = arguments[5 * i + 11];
+                let quantity = arguments[5 * i + 12];
+                
+                text += "<li>productID: " + productID + " | name: " + name + " | des: " + description + 
+                " | price: $" + price + " | quantity: " + quantity + "</li>";
+            }
+            
+            text += "</ul>";
+            
+            text += "<form action=\"/driver\" method=\"post\"><input type=\"submit\" name=\"command\" value=\"Verify " + deliveryID + "\"/></form>";
+            
+            text += "<form action=\"/driver\" method=\"post\"><input type=\"submit\" name=\"command\" value=\"Cancel " + deliveryID + "\"/></form>";
             
             document.getElementById("column2").innerHTML = text;
             
         } else {
+            
             x.style.display = "none";
+            
         }
     }
     </script>
+    
 </div>
 
 </body>
