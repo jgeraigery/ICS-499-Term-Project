@@ -28,10 +28,10 @@ public class DatabaseUtility {
 	public boolean connect() {
 	        try {
 				//Each user will need to enter their own username and password for the database
-	            //connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Strangerdanger");
+	            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Strangerdanger");
             
 	            // Thomas's connection
-	            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Quintav85$311");
+//	            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Quintav85$311");
             
 	            // Alexey's connection
 	            //connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "ics311");
@@ -80,7 +80,7 @@ public class DatabaseUtility {
 	public List<DateInvoiceNumber> getInvoiceDates(String user) {
 		List<DateInvoiceNumber> dateList = new ArrayList<DateInvoiceNumber>();
 		String query = "select distinct invoiceDate, invoiceID, userID from invoiceItem "
-				+ "natural join user where userName = ?";
+				+ "natural join user where userName = ? order by InvoiceDate asc";
 		try {
 		if(connect()) {
 			PreparedStatement stmt = connection.prepareStatement(query);
@@ -176,7 +176,7 @@ public class DatabaseUtility {
 		List<Delivery> deliveryList = new ArrayList<Delivery>();
 		//String query = "Select * from deliveries natural join invoiceItems where employeeID = ? and status = ?";
 		//String query = "Select * from deliveries natural join invoiceitem where employeeID = ? and status = ?";
-		String query = "Select * from deliveries where employeeID = ? and status = ?";
+		String query = "Select * from deliveries where employeeID = ? and status = ? order by date asc";
 		
 		try {
 			if(connect()) {
@@ -205,7 +205,7 @@ public class DatabaseUtility {
 	 */
 	public List<Delivery> getDeliveriesAll() {
 		List<Delivery> dateList = new ArrayList<Delivery>();
-		String query = "Select * from deliveries where status = ?";
+		String query = "Select * from deliveries where status = ? order by date asc";
 		try {
 			if(connect()) {
 				PreparedStatement stmt = connection.prepareStatement(query);
