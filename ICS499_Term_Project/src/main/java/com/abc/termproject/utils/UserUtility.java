@@ -20,25 +20,6 @@ public class UserUtility {
     
     DatabaseUtility db = new DatabaseUtility();
     
-    // Returns the total amount of ALL invoices for a user. PROBABLY BELONGS IN DATABASEUTILITY.JAVA
-    public double totalInvoiceTotal(List<DateInvoiceNumber> userInvoiceList) {
-        
-        double totalCount = 0.00;
-        
-        for (int i = 0; i < userInvoiceList.size(); i++) {
-            
-            String date = userInvoiceList.get(i).getDate();
-            int userID = userInvoiceList.get(i).getUserID();
-            int invoiceID = userInvoiceList.get(i).getInvoiceID();
-            
-            Invoice myInvoice = db.getInvoice(date, userID, invoiceID);
-            
-            totalCount += myInvoice.getTotal();
-        }
-        
-        return totalCount;
-    }
-    
     // Builds the list of all invoices for a user
     public String invoiceListBuilder(List<DateInvoiceNumber> userInvoiceList) {
         

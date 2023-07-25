@@ -26,8 +26,8 @@
 			<td><input type="text" name="invoiceId" required></td>
 		</tr>
 		<tr>
-			<td>User ID:</td>
-			<td><input type="text" name="userId" required></td>
+			<td>Customer ID:</td>
+			<td><input type="text" name="customerId" required></td>
 		</tr>
 		<tr>
 			<td>Invoice Date:</td>

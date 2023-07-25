@@ -35,22 +35,10 @@ public class NavigationController {
 		return "customer";
 	}
 	
-	// Used to access the admin page manually
-	@GetMapping("/admin")
-	public String admin() {
-		return "admin";
-	}
-	
 	// Post request method for adding invoice items to DB
 	@PostMapping(path="/admin")
-	public void upload(@RequestParam int invoiceId, @RequestParam int userId, @RequestParam String date, @RequestParam int prodId, @RequestParam int quantity) {
-		dbUtil.insertInvoice(invoiceId, userId, date, prodId, quantity);
-	}
-	
-	// Used to access the driver page manually
-	@GetMapping("/driver")
-	public String driver() {
-		return "driver";
+	public void upload(@RequestParam int invoiceId, @RequestParam int customerId, @RequestParam String date, @RequestParam int prodId, @RequestParam int quantity) {
+		dbUtil.insertInvoice(invoiceId, customerId, date, prodId, quantity);
 	}
 	
 	// Post request method for changing the status of a delivery
@@ -99,12 +87,6 @@ public class NavigationController {
             }
         }
     }
-	
-	// Used to access the customer page manually
-	@GetMapping("/customer")
-	public String customer() {
-		return "customer";
-	}
 	
 	public String getCurrentUser() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
