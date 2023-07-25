@@ -79,12 +79,12 @@
             let invoiceID = arguments[4];
             let status = arguments[5];
             
-            let myInvoiceTotal = arguments[6];
+            let myInvoiceTotal = (arguments[6]).toFixed(2);
             
             let myInvoiceItemListLength = arguments[7];
             
-            let text = "<p>Invoice information for deliveryID: " + deliveryID + " | driverID: " + driverID + " | invoiceDate: " + invoiceDate +
-            " | customerID: " + customerID + " | invoiceID: " + invoiceID + " | status: " + status + "</p>";
+            let text = "<p>Invoice information for Invoice Date: " + invoiceDate + " | Invoice ID: " + invoiceID + 
+            " | Delivery ID: " + deliveryID + " | Customer ID: " + customerID + "</p>";
             
             text += "<p>Invoice Total: $" + myInvoiceTotal + "</p>";
             
@@ -95,7 +95,7 @@
                 let productID = arguments[5 * i + 8];
                 let name = arguments[5 * i + 9];
                 let description = arguments[5 * i + 10];
-                let price = arguments[5 * i + 11];
+                let price = (arguments[5 * i + 11]).toFixed(2);
                 let quantity = arguments[5 * i + 12];
                 
                 text += "<li>productID: " + productID + " | name: " + name + " | des: " + description + 
