@@ -50,8 +50,8 @@ public class UserUtility {
             int userID = userInvoiceList.get(i).getUserID();
             int invoiceID = userInvoiceList.get(i).getInvoiceID();
             
-            listText += "<li><a href=\"#column2\" onclick=\"   " + invoiceDetailsParameterBuilder(date, userID, invoiceID) + "   \">User ID: " +
-                userID + " | Invoice ID: " + invoiceID + " | Date: \'" + date + "\'</a></li>";
+            listText += "<li><a href=\"#column2\" onclick=\"   " + invoiceDetailsParameterBuilder(date, userID, invoiceID) + "   \">Date: " +
+                date + " | Invoice ID: " + invoiceID + "</a></li>";
         }
         
         return listText;
@@ -103,9 +103,8 @@ public class UserUtility {
             int invoiceID = myDelivery.getInvoiceID();
             String status = myDelivery.getStatus();
             
-            listText += "<li><a href=\"#column2\" onclick=\"   " + delivDetailsParameterBuilder(myDelivery) + "   \">delivery ID: " +
-                deliveryID + " | driver ID: " + driverID + " | invoice Date: \'" + invoiceDate + "\' | customer ID: " + customerID + 
-                " | invoice ID: " + invoiceID + " | status: \'" + status + "\'</a></li>";
+            listText += "<li><a href=\"#column2\" onclick=\"   " + delivDetailsParameterBuilder(myDelivery) + "   \">Invoice Date: " +
+                invoiceDate + " | Invoice ID: " + invoiceID + " | delivery ID: " + deliveryID + " | Customer ID: " + customerID + "</a></li>";
         }
         
         return listText;
@@ -113,8 +112,6 @@ public class UserUtility {
     
     // Builds the list of all parameters for showInvoiceView() in driver.jsp to display a deliv
     public String delivDetailsParameterBuilder(Delivery myDelivery) {
-        
-        //String functionParameters = "";
         
         int deliveryID = myDelivery.getDeliveryID();
         int driverID = myDelivery.getDriverID();
@@ -130,12 +127,6 @@ public class UserUtility {
         List<InvoiceItem> myInvoiceItemList = myInvoice.getItemList();
         
         int myInvoiceItemListLength = myInvoiceItemList.size();
-        
-        //double myInvoiceTotal = 0.00;
-        
-        //List<InvoiceItem> myInvoiceItemList = myInvoice.getItemList();
-        
-        //int myInvoiceItemListLength = myInvoiceItemList.size();
         
         String functionParameters = "showDelivView(" + deliveryID + ", " + driverID + ", \'" + invoiceDate + "\', " + customerID + ", " + invoiceID + ", \'" + status + "\', " +
             myInvoiceTotal + ", " + myInvoiceItemListLength;
@@ -156,47 +147,4 @@ public class UserUtility {
         return functionParameters;
         
     }
-    
-    // Builds the infoboxes for each of the invoices for a user
-    /*public String invoiceInfoBuilder(List<DateInvoiceNumber> userInvoiceList) {
-        
-        String invoiceText = "";
-        
-        for (int i = 0; i < userInvoiceList.size(); i++) {
-            
-            String date = userInvoiceList.get(i).getDate();
-            int userID = userInvoiceList.get(i).getUserID();
-            int invoiceID = userInvoiceList.get(i).getInvoiceID();
-            
-            Invoice myInvoice = db.getInvoice(date, userID, invoiceID);
-            
-            List<InvoiceItem> myInvoiceList = myInvoice.getItemList();
-            
-            invoiceText += "<div class=\"column2\" id=\"invoice" + i + "\" style=\"display:none\"><p>Invoice information for Date " + date +
-                "</p><p>Invoice Total: $" + db.getInvoice(date, userID, invoiceID).getTotal() + "</p><ul style=\"list-style-type: none\">" +
-                invoiceItemInfoBuilder(myInvoiceList) + "</ul></div>";
-        }
-        
-        return invoiceText;
-    }
-    
-    // Builds the list of all invoice items for an invoice
-    public String invoiceItemInfoBuilder(List<InvoiceItem> userInvoiceItemsList) {
-        
-        String invoiceItemsText = "";
-        
-        for (int j = 0; j < userInvoiceItemsList.size(); j++) {
-            
-            int productID = userInvoiceItemsList.get(j).getProductID();
-            String name = userInvoiceItemsList.get(j).getName();
-            String description = userInvoiceItemsList.get(j).getDescription();
-            double price = userInvoiceItemsList.get(j).getPrice();
-            int quantity = userInvoiceItemsList.get(j).getQuantity();
-            
-            invoiceItemsText += "<li>productID: " + productID + " | name: " + name + " | des: " + description + 
-                " | price: $" + price + " | quantity: " + quantity + "</li>";
-        }
-        
-        return invoiceItemsText;
-    }*/
 }
