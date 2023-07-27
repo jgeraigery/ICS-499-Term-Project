@@ -18,16 +18,10 @@
 
 <body>
 
-<%!
-
-public void testy() {
-    
-}
-
-%>
-
 <h1>Welcome <%= db.getUserFullName(control.getCurrentUser()) %></h1>
-<h2>All Invoice Total: $<%= userUtil.totalInvoiceTotal(db.getInvoiceDates(control.getCurrentUser())) %></h2>
+
+<!-- Might be brought back later -->
+<!-- <h2>All Invoice Total: $<% //userUtil.totalInvoiceTotal(db.getInvoiceDates(control.getCurrentUser())) %></h2> -->
 
 <button class="logout" onclick="window.location.href='http://localhost:8080/login'">Log Out</button>
 
@@ -57,19 +51,22 @@ public void testy() {
             let invoiceID = arguments[1];
             let date = arguments[2];
             
-            let myInvoiceTotal = arguments[3];
+            let myInvoiceTotal = (arguments[3]).toFixed(2);
             
             let myInvoiceItemListLength = arguments[4];
             
-            let text = "<p>Invoice information for Date: " + date + " | UserID: " + userID + " | InvoiceID: " + invoiceID +
-            "</p><p>Invoice Total: $" + myInvoiceTotal + "</p><ul style=\"list-style-type: none\">";
+            let text = "<p>Invoice information for Date: " + date + " | InvoiceID: " + invoiceID + "</p>";
+            
+            text += "<p>Invoice Total: $" + myInvoiceTotal + "</p>";
+            
+            text += "<ul style=\"list-style-type: none\">";
             
             for (let i = 0; i < myInvoiceItemListLength; i++) {
             	
             	let productID = arguments[5 * i + 5];
                 let name = arguments[5 * i + 6];
                 let description = arguments[5 * i + 7];
-                let price = arguments[5 * i + 8];
+                let price = (arguments[5 * i + 8]).toFixed(2);
                 let quantity = arguments[5 * i + 9];
             	
             	text += "<li>productID: " + productID + " | name: " + name + " | des: " + description + 
@@ -77,8 +74,6 @@ public void testy() {
             }
             
             text += "</ul>";
-            
-            //let text = "<h1>Welcome " + <\%= db.getUserFullName(control.getCurrentUser()) \%> +  "</h1>";
             
             document.getElementById("column2").innerHTML = text;
             
