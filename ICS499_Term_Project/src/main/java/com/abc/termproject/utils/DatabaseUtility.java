@@ -97,9 +97,9 @@ public class DatabaseUtility {
 		}} catch (Exception ex) {
 	        System.out.println("error - could not get invoice dates\n" + ex.getMessage());
 		}
-		return null;
-		
+		return null;	
 	}
+	
 	
 	/**
 	 * Method calls DB to query an invoice by selected date. DB returns a series of DB entries that are
@@ -174,8 +174,6 @@ public class DatabaseUtility {
 	 */
 	public List<Delivery> getDeliveriesByDriver(int driverID) {
 		List<Delivery> deliveryList = new ArrayList<Delivery>();
-		//String query = "Select * from deliveries natural join invoiceItems where employeeID = ? and status = ?";
-		//String query = "Select * from deliveries natural join invoiceitem where employeeID = ? and status = ?";
 		String query = "Select * from deliveries where employeeID = ? and status = ? order by date asc";
 		
 		try {
@@ -183,6 +181,69 @@ public class DatabaseUtility {
 				PreparedStatement stmt = connection.prepareStatement(query);
 				stmt.setInt(1, driverID);
 				stmt.setString(2, "in progress");
+				ResultSet rs = stmt.executeQuery();
+				while(rs.next()) {
+					Delivery dateItem= new Delivery(rs.getInt("deliveryID"), 
+							rs.getInt("employeeID"), 
+							rs.getString("date"), rs.getInt("customerID"), rs.getInt("invoiceID"), rs.getString("status"));
+					deliveryList.add(dateItem);
+				}
+				connection.close();
+				return deliveryList;
+			}} catch (Exception ex) {
+	        System.out.println("error - could not retreive deliveries list" + ex.getMessage());
+		}
+		return null;
+	}
+	
+	/**
+	 * Method to get a list of deliveries based on driverID and status. Status must be the exact string of
+	 * "in progress", "canceled", or "delivered"
+	 * @param (int) - driverID; unique driver ID
+	 * @param (String) - status; string of "in progress", "canceled", or "delivered"
+	 * @return (List<Delivery>) - deliveryList; List of delivery objects or null
+	 */
+	public List<Delivery> getDeliveriesByStatus(int driverID, String status) {
+		List<Delivery> deliveryList = new ArrayList<Delivery>();
+		String query = "Select * from deliveries where employeeID = ? and status = ? order by date asc";
+		
+		try {
+			if(connect()) {
+				PreparedStatement stmt = connection.prepareStatement(query);
+				stmt.setInt(1, driverID);
+				stmt.setString(2, status);
+				ResultSet rs = stmt.executeQuery();
+				while(rs.next()) {
+					Delivery dateItem= new Delivery(rs.getInt("deliveryID"), 
+							rs.getInt("employeeID"), 
+							rs.getString("date"), rs.getInt("customerID"), rs.getInt("invoiceID"), rs.getString("status"));
+					deliveryList.add(dateItem);
+				}
+				connection.close();
+				return deliveryList;
+			}} catch (Exception ex) {
+	        System.out.println("error - could not retreive deliveries list" + ex.getMessage());
+		}
+		return null;
+	}
+	
+	/**
+	 * Method to search database by driver, date, and delivery status
+	 * @param (int) - driverID; unique driver id
+	 * @param (String) - status; delivery status
+	 * @param (String) - date; must be in YYYY-MM-DD format
+	 * @return(List<delivery>) - deliveryList; list of deliveries
+	 */
+	public List<Delivery> getDeliveriesByStatusAndDate(int driverID, String status, String date) {
+		List<Delivery> deliveryList = new ArrayList<Delivery>();
+		String query = "Select * from deliveries where employeeID = ? and status = ? and date = ?";
+		
+		try {
+			if(connect()) {
+				PreparedStatement stmt = connection.prepareStatement(query);
+				stmt.setInt(1, driverID);
+				stmt.setString(2, status);
+				stmt.setString(3, date);
 				ResultSet rs = stmt.executeQuery();
 				while(rs.next()) {
 					Delivery dateItem= new Delivery(rs.getInt("deliveryID"), 
@@ -214,7 +275,88 @@ public class DatabaseUtility {
 				while(rs.next()) {
 					Delivery dateItem= new Delivery(rs.getInt("deliveryID"), 
 							rs.getInt("employeeID"), 
-							//rs.getString("invoiceDate"), rs.getInt("customerID"), rs.getInt("invoiceID"), rs.getString("status"));
+							rs.getString("date"), rs.getInt("customerID"), rs.getInt("invoiceID"), rs.getString("status"));
+					dateList.add(dateItem);
+				}
+				connection.close();
+				return dateList;
+			}} catch (Exception ex) {
+	        System.out.println("error - could not retreive deliveries list" + ex.getMessage());
+		}
+		return null;
+	}
+	
+	/**
+	 * Method for admin to search all deliveries by status
+	 * @param (String) - status; String of "in progress", "canceled", or "delivered"
+	 * @return (List<Delivery>) - dateList; list of deliveries
+	 */
+	public List<Delivery> getDeliveriesAllByStatus(String status) {
+		List<Delivery> dateList = new ArrayList<Delivery>();
+		String query = "Select * from deliveries where status = ? order by date asc";
+		try {
+			if(connect()) {
+				PreparedStatement stmt = connection.prepareStatement(query);
+				stmt.setString(1, status);
+				ResultSet rs = stmt.executeQuery();
+				while(rs.next()) {
+					Delivery dateItem= new Delivery(rs.getInt("deliveryID"), 
+							rs.getInt("employeeID"), 
+							rs.getString("date"), rs.getInt("customerID"), rs.getInt("invoiceID"), rs.getString("status"));
+					dateList.add(dateItem);
+				}
+				connection.close();
+				return dateList;
+			}} catch (Exception ex) {
+	        System.out.println("error - could not retreive deliveries list" + ex.getMessage());
+		}
+		return null;
+	}
+	/**
+	 * Method returns all deliveries based on date
+	 * @param (String) - date; must be in YYYY-MM-DD format
+	 * @return (List<Delivery>) - dateList; list of deliveries
+	 */
+	public List<Delivery> getDeliveriesAllByDate(String date) {
+		List<Delivery> dateList = new ArrayList<Delivery>();
+		String query = "Select * from deliveries where date = ?";
+		try {
+			if(connect()) {
+				PreparedStatement stmt = connection.prepareStatement(query);
+				stmt.setString(1, date);
+				ResultSet rs = stmt.executeQuery();
+				while(rs.next()) {
+					Delivery dateItem= new Delivery(rs.getInt("deliveryID"), 
+							rs.getInt("employeeID"), 
+							rs.getString("date"), rs.getInt("customerID"), rs.getInt("invoiceID"), rs.getString("status"));
+					dateList.add(dateItem);
+				}
+				connection.close();
+				return dateList;
+			}} catch (Exception ex) {
+	        System.out.println("error - could not retreive deliveries list" + ex.getMessage());
+		}
+		return null;
+	}
+		
+	/**
+	 * Method to get all deliveries based on status and date Strings
+	 * @param (String) - status; String of "in progress", "canceled", or "delivered"
+	 * @param (String) - date; must be in YYYY-MM-DD format
+	 * @return (List<Delivery>) - dateList; list of deliveries
+	 */
+	public List<Delivery> getDeliveriesAllByStatusAndDate(String status, String date) {
+		List<Delivery> dateList = new ArrayList<Delivery>();
+		String query = "Select * from deliveries where status = ? and date = ?";
+		try {
+			if(connect()) {
+				PreparedStatement stmt = connection.prepareStatement(query);
+				stmt.setString(1, status);
+				stmt.setString(2, date);
+				ResultSet rs = stmt.executeQuery();
+				while(rs.next()) {
+					Delivery dateItem= new Delivery(rs.getInt("deliveryID"), 
+							rs.getInt("employeeID"), 
 							rs.getString("date"), rs.getInt("customerID"), rs.getInt("invoiceID"), rs.getString("status"));
 					dateList.add(dateItem);
 				}
