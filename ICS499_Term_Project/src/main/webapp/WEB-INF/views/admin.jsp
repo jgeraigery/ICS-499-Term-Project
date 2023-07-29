@@ -52,16 +52,54 @@
 
 <div class="row">
 	<div class="column1">
-		<p>All Current Deliveries to View for <%= db.getUserFullName(control.getCurrentUser()) %></p>
+	    
+	    <p>View Filters: </p>
+	    
+	    <button onclick="showAll()">All</button>
+	    <button onclick="showStatusOnly('progress')">In Progress</button>
+	    <button onclick="showStatusOnly('delivered')">Delivered</button>
+	    <button onclick="showStatusOnly('canceled')">Canceled</button>
+	    
+		<p>All Deliveries to View for <%= db.getUserFullName(control.getCurrentUser()) %></p>
 		
         <ul style="list-style-type: none">
-        <%= userUtil.delivListBuilderDriver(db.getDeliveriesAll()) %>
+        <%= userUtil.delivListBuilderAdmin(db.getDeliveriesAll()) %>
         </ul>
 		
 	</div>
 	
 	<div class="column2" id="column2" style="display:none">
 	</div>
+	
+	<script>
+	function showAll() {
+		
+		x = document.getElementsByClassName("all");
+		
+		for (let i = 0; i < x.length; i++) {
+		    x[i].style.display = "block";
+		}
+	}
+	
+    function showStatusOnly() {
+    	
+    	let status = arguments[0];
+    	
+    	x = document.getElementsByClassName("all");
+    	
+    	for (let i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        
+        x = document.getElementsByClassName(status);
+        
+        for (let i = 0; i < x.length; i++) {
+            x[i].style.display = "block";
+        }
+        
+        document.getElementById("column2").style.display = "none";
+    }
+	</script>
 	
     <script>
     function showDelivView() {
@@ -84,7 +122,7 @@
             let myInvoiceItemListLength = arguments[7];
             
             let text = "<p>Invoice information for Invoice Date: " + invoiceDate + " | Invoice ID: " + invoiceID + 
-            " | Delivery ID: " + deliveryID + " | Customer ID: " + customerID + "</p>";
+            " | Delivery ID: " + deliveryID + " | Customer ID: " + customerID + " | Current Status: " + status + "</p>";
             
             text += "<p>Invoice Total: $" + myInvoiceTotal + "</p>";
             
@@ -104,7 +142,7 @@
             
             text += "</ul>";
             
-            document.getElementById("column2").innerHTML = text;
+            x.innerHTML = text;
             
         } else {
             

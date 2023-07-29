@@ -28,13 +28,13 @@ public class DatabaseUtility {
 	public boolean connect() {
 	        try {
 				//Each user will need to enter their own username and password for the database
-	            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Strangerdanger");
+	            //connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Strangerdanger");
             
 	            // Thomas's connection
 //	            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Quintav85$311");
             
 	            // Alexey's connection
-	            //connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "ics311");
+	            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "ics311");
             
 	        	  //Ahmad's Connection
 	        	  //connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "root");
@@ -174,13 +174,14 @@ public class DatabaseUtility {
 	 */
 	public List<Delivery> getDeliveriesByDriver(int driverID) {
 		List<Delivery> deliveryList = new ArrayList<Delivery>();
-		String query = "Select * from deliveries where employeeID = ? and status = ? order by date asc";
+		//String query = "Select * from deliveries where employeeID = ? and status = ? order by date asc";
+		String query = "Select * from deliveries where employeeID = ? order by date asc";
 		
 		try {
 			if(connect()) {
 				PreparedStatement stmt = connection.prepareStatement(query);
 				stmt.setInt(1, driverID);
-				stmt.setString(2, "in progress");
+				//stmt.setString(2, "in progress");
 				ResultSet rs = stmt.executeQuery();
 				while(rs.next()) {
 					Delivery dateItem= new Delivery(rs.getInt("deliveryID"), 
@@ -261,16 +262,17 @@ public class DatabaseUtility {
 	
 	
 	/**
-	 * Method takes in driverID and date of deliveries to return a list of ALL Delivery objects that are in progress
+	 * Method takes in driverID and date of deliveries to return a list of ALL Delivery objects NO MATTER the progress
 	 * @return List<Delivery> - dateList; List of all delivery objects
 	 */
 	public List<Delivery> getDeliveriesAll() {
 		List<Delivery> dateList = new ArrayList<Delivery>();
-		String query = "Select * from deliveries where status = ? order by date asc";
+		//String query = "Select * from deliveries where status = ? order by date asc";
+		String query = "Select * from deliveries order by date asc";
 		try {
 			if(connect()) {
 				PreparedStatement stmt = connection.prepareStatement(query);
-				stmt.setString(1, "in progress");
+				//stmt.setString(1, "in progress");
 				ResultSet rs = stmt.executeQuery();
 				while(rs.next()) {
 					Delivery dateItem= new Delivery(rs.getInt("deliveryID"), 

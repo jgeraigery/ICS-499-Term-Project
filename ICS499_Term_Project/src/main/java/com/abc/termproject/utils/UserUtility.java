@@ -84,8 +84,31 @@ public class UserUtility {
             int invoiceID = myDelivery.getInvoiceID();
             String status = myDelivery.getStatus();
             
-            listText += "<li><a href=\"#column2\" onclick=\"   " + delivDetailsParameterBuilder(myDelivery) + "   \">Invoice Date: " +
-                invoiceDate + " | Invoice ID: " + invoiceID + " | delivery ID: " + deliveryID + " | Customer ID: " + customerID + "</a></li>";
+            listText += "<li class=\"all "+ status + "\"><a href=\"#column2\" onclick=\"   " + delivDetailsParameterBuilder(myDelivery) + "   \">Invoice Date: " +
+                invoiceDate + " | Invoice ID: " + invoiceID + " | delivery ID: " + deliveryID + " | Customer ID: " + customerID + " | Current Status: " + status + "</a></li>";
+        }
+        
+        return listText;
+    }
+    
+    // Builds the list of all deliveries for a admin
+    public String delivListBuilderAdmin(List<Delivery> driverDelivList) {
+        
+        String listText = "";
+        
+        for (int i = 0; i < driverDelivList.size(); i++) {
+            
+            Delivery myDelivery = driverDelivList.get(i);
+            
+            int deliveryID = myDelivery.getDeliveryID();
+            int driverID = myDelivery.getDriverID();
+            String invoiceDate = myDelivery.getInvoiceDate();
+            int customerID = myDelivery.getCustomerID();
+            int invoiceID = myDelivery.getInvoiceID();
+            String status = myDelivery.getStatus();
+            
+            listText += "<li class=\"all "+ status + "\"><a href=\"#column2\" onclick=\"   " + delivDetailsParameterBuilder(myDelivery) + "   \">Invoice Date: " +
+                invoiceDate + " | Invoice ID: " + invoiceID + " | delivery ID: " + deliveryID + " | Customer ID: " + customerID + " | Current Status: " + status + "</a></li>";
         }
         
         return listText;
