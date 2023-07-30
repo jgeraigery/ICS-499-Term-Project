@@ -1,6 +1,5 @@
 package com.abc.termproject.utils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.abc.termproject.entity.DateInvoiceNumber;
@@ -8,19 +7,15 @@ import com.abc.termproject.entity.Delivery;
 import com.abc.termproject.entity.Invoice;
 import com.abc.termproject.entity.InvoiceItem;
 
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 public class UserUtility {
     
     DatabaseUtility db = new DatabaseUtility();
     
-    // Builds the list of all invoices for a user
+    /**
+     * Builds the list of all invoices for a user
+     * @param userInvoiceList
+     * @return
+     */
     public String invoiceListBuilder(List<DateInvoiceNumber> userInvoiceList) {
         
         String listText = "";
@@ -38,7 +33,13 @@ public class UserUtility {
         return listText;
     }
     
-    // Builds the list of all parameters for showInvoiceView() in customer.jsp to display a invoice
+    /**
+     * Builds the list of all parameters for showInvoiceView() in customer.jsp to display a invoice
+     * @param date
+     * @param userID
+     * @param invoiceID
+     * @return
+     */
     public String invoiceDetailsParameterBuilder(String date, int userID, int invoiceID) {
         
         Invoice myInvoice = db.getInvoice(date, userID, invoiceID);
@@ -68,7 +69,12 @@ public class UserUtility {
         
     }
     
-    // Builds the list of all deliveries for a driver
+     
+    /**
+     * Builds the list of all deliveries for a driver
+     * @param driverDelivList
+     * @return
+     */
     public String delivListBuilderDriver(List<Delivery> driverDelivList) {
         
         String listText = "";
@@ -91,7 +97,11 @@ public class UserUtility {
         return listText;
     }
     
-    // Builds the list of all deliveries for a admin
+    /**
+     * Builds the list of all deliveries for a admin
+     * @param driverDelivList
+     * @return
+     */
     public String delivListBuilderAdmin(List<Delivery> driverDelivList) {
         
         String listText = "";
@@ -114,7 +124,11 @@ public class UserUtility {
         return listText;
     }
     
-    // Builds the list of all parameters for showInvoiceView() in driver.jsp to display a deliv
+    /**
+     * Builds the list of all parameters for showInvoiceView() in driver.jsp to display a deliv
+     * @param myDelivery
+     * @return
+     */
     public String delivDetailsParameterBuilder(Delivery myDelivery) {
         
         int deliveryID = myDelivery.getDeliveryID();
