@@ -44,10 +44,11 @@ public class NavigationController {
 	
 	/**
 	 * Work in progress method. Currently uploads invoice items to database from file, each line represents a different invoice item.
-	 * File line example looks like: 7,3,2023-12-08,8,5
+	 * File line example of invoice item looks like: 7,1,2023-12-08,8,5
+	 * File line example of delivery looks like: in progress,4,1,1,7,2023-12-08
 	 * NOTE: You have to change the directory to one on your personal machine, so follow the database connection pattern where we comment out each others
 	 * 
-	 * @param upload
+	 * @param (MultipartFile) - upload; uploaded file from user, must be a csv following format specified above
 	 */
 	@PostMapping(path="/admin")
 	public void upload(@RequestParam MultipartFile upload) {
@@ -61,6 +62,10 @@ public class NavigationController {
 				temp = currentLine.split(",");
 				if (temp.length == 5) {
 					dbUtil.insertInvoice(Integer.parseInt(temp[0]), Integer.parseInt(temp[1]), temp[2], Integer.parseInt(temp[3]), Integer.parseInt(temp[4]));
+				} else if (temp.length == 6) {
+					dbUtil.insertDelivery(temp[0], Integer.parseInt(temp[1]), Integer.parseInt(temp[2]), Integer.parseInt(temp[3]), Integer.parseInt(temp[4]), temp[5]);
+				} else {
+					// do nothing bad line
 				}
 			}
 			br.close();

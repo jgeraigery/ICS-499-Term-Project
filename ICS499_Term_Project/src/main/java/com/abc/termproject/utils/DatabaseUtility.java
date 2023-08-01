@@ -498,6 +498,37 @@ public class DatabaseUtility {
 	}
 	
 	/**
+	 * Method for inserting new deliveries into the connected database
+	 * @param (String) - status; status of delivery
+	 * @param (int) - employeeID; unique employeeID
+	 * @param (int) - itemID; itemID for connecting invoice item table
+	 * @param (int) - customerID; unique customerID
+	 * @param (int) - invoiceID; unique invoiceID
+	 * @return (String) - date; date of delivery YYYY-MM-DD format is required
+	 */
+	public Boolean insertDelivery(String status, int employeeID, int itemID, int customerID, int invoiceID, String date) {
+		try {
+			if(connect()) {
+				String insert = "Insert into deliveries (status, employeeID, itemID, customerID, invoiceID, date)"
+						+ "values(?,?,?,?,?,?)";
+		        PreparedStatement stmt = connection.prepareStatement(insert);
+		        stmt.setString(1, status);
+				stmt.setInt(2, employeeID);
+				stmt.setInt(3, itemID);
+				stmt.setInt(4, customerID);
+				stmt.setInt(5, invoiceID);
+				stmt.setString(6, date);
+				int row = stmt.executeUpdate();
+	            System.out.println("Rows affected: " + row);//1
+				connection.close();
+				return true;
+			}} catch (Exception ex) {
+	        System.out.println("error - could not insert into DB see message\n" + ex.getMessage());
+		}
+		return false;
+	}
+	
+	/**
 	 * Method updates status field for a delivery in db to delivered
 	 * @param (int) - deliveryID; unique delivery id number
 	 * @return (Boolean) - return true on successful update, else false
