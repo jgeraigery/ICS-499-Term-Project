@@ -18,7 +18,7 @@
 <!-- This form is used to submit invoiceItem data to the database
 	 Currently adds one item at a time to any given invoice
 	 Also assumes user knows what they're doing and doesn't input any bad values
-	 EX) different user id or date than original invoice info -->
+	 EX) different user id or date than original invoice info 
 <form action="/admin" method="post">
 	<table>
 	 	<tr>
@@ -46,6 +46,12 @@
 			<td><input type="reset" value="Reset"></td>
 		</tr>
 	</table>
+</form>
+-->
+
+<form action="/admin" enctype="multipart/form-data" method="post">
+	<input type="file" name="upload">
+	<input type="submit">
 </form>
 
 <button class="logout" onclick="window.location.href='http://localhost:8080/login'">Log Out</button>

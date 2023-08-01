@@ -31,10 +31,10 @@ public class DatabaseUtility {
 	            //connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Strangerdanger");
             
 	            // Thomas's connection
-//	            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Quintav85$311");
+	            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Quintav85$311");
             
 	            // Alexey's connection
-	            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "ics311");
+//	            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "ics311");
             
 	        	  //Ahmad's Connection
 	        	  //connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "root");
