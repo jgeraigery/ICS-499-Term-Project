@@ -75,7 +75,7 @@
             
             text += "</ul>";
             
-            document.getElementById("column2").innerHTML = text;
+            x.innerHTML = text;
             
         } else {
         	

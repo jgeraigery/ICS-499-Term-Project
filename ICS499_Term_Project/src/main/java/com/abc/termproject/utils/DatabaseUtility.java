@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.abc.termproject.entity.ContactInfo;
 import com.abc.termproject.entity.DateInvoiceNumber;
 import com.abc.termproject.entity.Delivery;
 import com.abc.termproject.entity.Invoice;
@@ -28,10 +29,10 @@ public class DatabaseUtility {
 	public boolean connect() {
 	        try {
 				//Each user will need to enter their own username and password for the database
-	            //connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Strangerdanger");
+	            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Strangerdanger");
             
 	            // Thomas's connection
-	            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Quintav85$311");
+//	            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Quintav85$311");
             
 	            // Alexey's connection
 //	            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "ics311");
@@ -113,6 +114,7 @@ public class DatabaseUtility {
 	 */
 	public Invoice getInvoice(String date, int id, int invoiceID) {
 		String fullName = getUserFullNameByID(id);
+		
 		List<InvoiceItem> items = new ArrayList<InvoiceItem>();
 		String query = "select * from user natural join InvoiceItem natural join product where invoiceID = ?";
 		try {
@@ -133,6 +135,33 @@ public class DatabaseUtility {
 			return invoice;
 		}} catch (Exception ex) {
 	        System.out.println("error - could not get invoice\n" + ex.getMessage());
+		}
+		return null;
+	}
+	
+	/**
+	 * Method to get contact information for a user by id
+	 * @param (int) - id; unique user id
+	 * @return (ContactInfo) - info; Object housing user address and phone number info
+	 */
+	public ContactInfo getContactInfoByID(int id) {
+		List<ContactInfo> info = new ArrayList<ContactInfo>();
+		String query = "select * from user natural join InvoiceItem natural join product where userID = ?";
+		try {
+		if(connect()) {
+			PreparedStatement stmt = connection.prepareStatement(query);
+			stmt.setInt(1, id);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				ContactInfo temp = new ContactInfo(rs.getInt("sNumber"), 
+						rs.getString("street"), 
+						rs.getString("city"), rs.getString("state"), rs.getInt("zip"), rs.getInt("prefix"), rs.getInt("pNumber"));
+				info.add(temp);
+			}
+			connection.close();
+			return info.get(0);
+		}} catch (Exception ex) {
+	        System.out.println("error - could not get contact info\n" + ex.getMessage());
 		}
 		return null;
 	}
