@@ -89,8 +89,6 @@ public class NavigationController {
                 
                 deliveryID = Integer.parseInt(command.substring(7));
                 
-                //System.out.println(deliveryID);
-                
                 dbUtil.verifyDelivery(deliveryID);
                 
                 System.out.println("DeliveryID " + deliveryID + " was verified");
@@ -107,8 +105,6 @@ public class NavigationController {
                 
                 deliveryID = Integer.parseInt(command.substring(7));
                 
-                //System.out.println(deliveryID);
-                
                 dbUtil.cancelDelivery(deliveryID);
                 
                 System.out.println("DeliveryID " + deliveryID + " was cancelled");
@@ -116,6 +112,22 @@ public class NavigationController {
             } catch (Exception ex) {
                 
                 System.out.println("error - could not cancel delivery\n" + ex.getMessage());
+                
+            }
+            
+        } else if (command.substring(0, 6).equals("InProg")) {
+            
+            try {
+                
+                deliveryID = Integer.parseInt(command.substring(7));
+                
+                dbUtil.inProgDelivery(deliveryID);
+                
+                System.out.println("DeliveryID " + deliveryID + " was set to in progress");
+                
+            } catch (Exception ex) {
+                
+                System.out.println("error - could not set to In Progress\n" + ex.getMessage());
                 
             }
         }

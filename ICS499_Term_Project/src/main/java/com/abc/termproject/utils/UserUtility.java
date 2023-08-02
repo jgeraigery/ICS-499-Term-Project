@@ -6,6 +6,7 @@ import com.abc.termproject.entity.DateInvoiceNumber;
 import com.abc.termproject.entity.Delivery;
 import com.abc.termproject.entity.Invoice;
 import com.abc.termproject.entity.InvoiceItem;
+import com.abc.termproject.entity.ContactInfo;
 
 public class UserUtility {
     
@@ -13,8 +14,8 @@ public class UserUtility {
     
     /**
      * Builds the list of all invoices for a user
-     * @param userInvoiceList
-     * @return
+     * @param (List<DateInvoiceNumber>) - userInvoiceList; the invoice list for a user
+     * @return (String) - listText; the HTML code to display the invoice list for a user
      */
     public String invoiceListBuilder(List<DateInvoiceNumber> userInvoiceList) {
         
@@ -35,10 +36,10 @@ public class UserUtility {
     
     /**
      * Builds the list of all parameters for showInvoiceView() in customer.jsp to display a invoice
-     * @param date
-     * @param userID
-     * @param invoiceID
-     * @return
+     * @param (String) - date; date to get a invoice
+     * @param (int) - userID; userID to get a invoice
+     * @param (int) - invoiceID; invoiceID to get a invoice
+     * @return (String) = functionParameters; the HTML code that is showInvoiceView(parameters...) to run the showInvoiceView JS function
      */
     public String invoiceDetailsParameterBuilder(String date, int userID, int invoiceID) {
         
@@ -72,8 +73,8 @@ public class UserUtility {
      
     /**
      * Builds the list of all deliveries for a driver
-     * @param driverDelivList
-     * @return
+     * @param (List<Delivery>) - driverDelivList; the delivery list for a driver
+     * @return (String) - listText; the HTML code to display the delivery list for a driver
      */
     public String delivListBuilderDriver(List<Delivery> driverDelivList) {
         
@@ -90,7 +91,7 @@ public class UserUtility {
             int invoiceID = myDelivery.getInvoiceID();
             String status = myDelivery.getStatus();
             
-            listText += "<li class=\"all "+ status + "\"><a href=\"#column2\" onclick=\"   " + delivDetailsParameterBuilder(myDelivery) + "   \">Invoice Date: " +
+            listText += "<li class=\"all " + status + " " + invoiceDate + "\"><a href=\"#column2\" onclick=\"   " + delivDetailsParameterBuilder(myDelivery) + "   \">Invoice Date: " +
                 invoiceDate + " | Invoice ID: " + invoiceID + " | delivery ID: " + deliveryID + " | Customer ID: " + customerID + " | Current Status: " + status + "</a></li>";
         }
         
@@ -99,8 +100,8 @@ public class UserUtility {
     
     /**
      * Builds the list of all deliveries for a admin
-     * @param driverDelivList
-     * @return
+     * @param (List<Delivery>) - driverDelivList; the total delivery list for an admin
+     * @return (String) - listText; the HTML code to display the total delivery list for an admin
      */
     public String delivListBuilderAdmin(List<Delivery> driverDelivList) {
         
@@ -117,17 +118,17 @@ public class UserUtility {
             int invoiceID = myDelivery.getInvoiceID();
             String status = myDelivery.getStatus();
             
-            listText += "<li class=\"all "+ status + "\"><a href=\"#column2\" onclick=\"   " + delivDetailsParameterBuilder(myDelivery) + "   \">Invoice Date: " +
-                invoiceDate + " | Invoice ID: " + invoiceID + " | delivery ID: " + deliveryID + " | Customer ID: " + customerID + " | Current Status: " + status + "</a></li>";
+            listText += "<li class=\"all " + status + " " + invoiceDate + " " + driverID + "\"><a href=\"#column2\" onclick=\"   " + delivDetailsParameterBuilder(myDelivery) + "   \">Invoice Date: " +
+                invoiceDate + " | Invoice ID: " + invoiceID + " | delivery ID: " + deliveryID + " | Customer ID: " + customerID + " | Driver ID: " + driverID + " | Current Status: " + status + "</a></li>";
         }
         
         return listText;
     }
     
     /**
-     * Builds the list of all parameters for showInvoiceView() in driver.jsp to display a deliv
-     * @param myDelivery
-     * @return
+     * Builds the list of all parameters for showInvoiceView() in driver.jsp / admin.jsp to display a delivery info
+     * @param (Delivery) - myDelivery; myDelivery to get info about it
+     * @return (String) = functionParameters; the HTML code that is showDelivView(parameters...) to run the showDelivView JS function
      */
     public String delivDetailsParameterBuilder(Delivery myDelivery) {
         
@@ -142,12 +143,22 @@ public class UserUtility {
         
         double myInvoiceTotal = myInvoice.getTotal();
         
+        ContactInfo customerAddress = db.getContactInfoByID(customerID);
+        
+        int sNumber = customerAddress.getsNumber();
+        String street = customerAddress.getStreet();
+        String city = customerAddress.getCity();
+        String state = customerAddress.getState();
+        int zip = customerAddress.getZip();
+        int prefix = customerAddress.getPrefix();
+        int pNumber = customerAddress.getpNumber();
+        
         List<InvoiceItem> myInvoiceItemList = myInvoice.getItemList();
         
         int myInvoiceItemListLength = myInvoiceItemList.size();
         
         String functionParameters = "showDelivView(" + deliveryID + ", " + driverID + ", \'" + invoiceDate + "\', " + customerID + ", " + invoiceID + ", \'" + status + "\', " +
-            myInvoiceTotal + ", " + myInvoiceItemListLength;
+            myInvoiceTotal + ", " + sNumber + ", \'" + street + "\', \'" + city + "\', \'" + state + "\', " + zip + ", " + prefix + ", " + pNumber + ", " + myInvoiceItemListLength;
         
         for (int j = 0; j < myInvoiceItemListLength; j++) {
             
