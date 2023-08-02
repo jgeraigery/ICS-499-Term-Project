@@ -29,13 +29,13 @@ public class DatabaseUtility {
 	public boolean connect() {
 	        try {
 				//Each user will need to enter their own username and password for the database
-	            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Strangerdanger");
+	            //connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Strangerdanger");
             
 	            // Thomas's connection
-//	            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Quintav85$311");
+	            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "Quintav85$311");
             
 	            // Alexey's connection
-//	            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "ics311");
+	            //connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "ics311");
             
 	        	  //Ahmad's Connection
 	        	  //connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EZDB", "root", "root");
@@ -580,7 +580,7 @@ public class DatabaseUtility {
 	}
 	
 	/**
-	 * Method updates status field for a delivery in db to delivered
+	 * Method updates status field for a delivery in db to canceled
 	 * @param (int) - deliveryID; unique delivery id number
 	 * @return (Boolean) - return true on successful update, else false
 	 */
@@ -600,4 +600,26 @@ public class DatabaseUtility {
 		}
 		return false;
 	}
+	
+	/**
+     * Method updates status field for a delivery in db to in progress
+     * @param (int) - deliveryID; unique delivery id number
+     * @return (Boolean) - return true on successful update, else false
+     */
+    public Boolean inProgDelivery(int deliveryID) {
+        try {
+            if(connect()) {
+                String insert = "Update deliveries set status = ? where deliveryID = ?";
+                PreparedStatement stmt = connection.prepareStatement(insert);
+                stmt.setString(1, "in progress");
+                stmt.setInt(2, deliveryID);
+                int row = stmt.executeUpdate();
+                System.out.println("Rows affected: " + row);//1
+                connection.close();
+                return true;
+            }} catch (Exception ex) {
+            System.out.println("error - could not update database\n" + ex.getMessage());
+        }
+        return false;
+    }
 }
