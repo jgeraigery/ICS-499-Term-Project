@@ -44,6 +44,7 @@ public class NavigationController {
 	
 	/**
 	 * Work in progress method. Currently uploads invoice items to database from file, each line represents a different invoice item.
+	 * If a delivery needs to be added then it can as well by following the syntax displayed below.
 	 * File line example of invoice item looks like: 7,1,2023-12-08,8,5
 	 * File line example of delivery looks like: in progress,4,1,1,7,2023-12-08
 	 * NOTE: You have to change the directory to one on your personal machine, so follow the database connection pattern where we comment out each others
@@ -52,6 +53,11 @@ public class NavigationController {
 	 */
 	@PostMapping(path="/admin")
 	public void upload(@RequestParam MultipartFile upload) {
+		if (upload.getOriginalFilename().substring(upload.getOriginalFilename().length()-4).equalsIgnoreCase(".csv")) {
+			// do nothing, this is good
+		} else {
+			return;
+		}
 		try {
 			upload.transferTo(new File("C:\\Users\\Thomas\\OneDrive\\Desktop\\Computer Science & Coding\\Summer 2023\\ICS 499\\Term Project\\Milestone 4\\"+upload.getOriginalFilename()));
 			BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\Thomas\\OneDrive\\Desktop\\Computer Science & Coding\\Summer 2023\\ICS 499\\Term Project\\Milestone 4\\"+upload.getOriginalFilename()));
