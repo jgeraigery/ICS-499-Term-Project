@@ -5,28 +5,51 @@
 }
 
 .column1 {
-	padding: 25px;
-	flex: 50%;
+	padding: 15px;
+	flex: 50;
 	border-style: inset;
 }
 
 .column2 {
-	padding: 25px;
-	flex: 50%;
+	padding: 15px;
+	flex: 50;
 	border-style: inset;
 }
 
 .logout {
-	position: absolute;
+	position: relative;
 	right: 0;
 }
 
 .cancel {
 	position: relative;
-	left: 5px;
+	left: 50px;
 }
 
 .verify {
 	position: absolute;
 	right: 70px;
+}
+
+button {
+  box-sizing: border-box;
+  padding: 1rem;
+  border-radius: 1rem;
+  background-color: hsl(0, 0%, 100%);
+  border: 4px solid hsl(0, 0%, 95%);
+}
+
+form {
+  box-sizing: border-box;
+  padding: 1rem;
+  border-radius: 1rem;
+  background-color: hsl(0, 0%, 100%);
+  border: 4px solid hsl(0, 0%, 95%);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+* {
+    background-color: hsl(0, 0%, 95%);
 }

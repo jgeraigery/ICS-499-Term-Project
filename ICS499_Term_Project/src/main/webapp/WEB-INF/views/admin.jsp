@@ -13,7 +13,9 @@
 	<link rel="stylesheet" href="./adminstyle.css">
 </head>
 <body>
-<h1>Welcome <%= db.getUserFullName(control.getCurrentUser()) %></h1>
+
+<h1>EZ Invoicing</h1>
+<h2>Welcome <%= db.getUserFullName(control.getCurrentUser()) %></h2>
 
 <!-- This form is used to submit invoiceItem data to the database
 	 Currently adds one item at a time to any given invoice
