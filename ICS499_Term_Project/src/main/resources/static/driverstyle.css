@@ -17,18 +17,22 @@
 }
 
 .logout {
-	position: relative;
-	right: 0;
-}
-
-.cancel {
-	position: relative;
-	left: 50px;
-}
-
-.verify {
 	position: absolute;
-	right: 70px;
+	top: 80px;
+	right: 25px;
+}
+
+#cancel {
+	position: relative;
+}
+
+#verify {
+	position: relative;
+	left: 0%;
+}
+
+#inProgress {
+	position: relative;
 }
 
 button {
@@ -37,15 +41,23 @@ button {
   border-radius: 1rem;
   background-color: hsl(0, 0%, 100%);
   border: 4px solid hsl(0, 0%, 95%);
+  transition-duration: 0.4s;
+}
+
+button:hover {
+	background-color: hsl(0, 0%, 50%);
+	color: white;
+	cursor: pointer;
 }
 
 form {
   box-sizing: border-box;
+  width: 25%;
   padding: 1rem;
   border-radius: 1rem;
   background-color: hsl(0, 0%, 100%);
   border: 4px solid hsl(0, 0%, 95%);
-  display: grid;
+  display: inline-block;
   grid-template-columns: 1fr;
   gap: 2rem;
 }

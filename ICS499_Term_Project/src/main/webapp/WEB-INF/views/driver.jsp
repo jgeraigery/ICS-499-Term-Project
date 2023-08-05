@@ -151,15 +151,11 @@
             
             text += "</ul>";
             
-            text += "<form action=\"/driver\" method=\"post\"><input type=\"submit\" name=\"command\" value=\"Verify " + deliveryID + "\"/></form>";
+            text += "<form id=\"/verify\" action=\"/driver\" method=\"post\"><input type=\"submit\" name=\"command\" value=\"Verify " + deliveryID + "\"/></form>";
             
-            text += "<p></p>";
+            text += "<form id=\"/cancel\" action=\"/driver\" method=\"post\"><input type=\"submit\" name=\"command\" value=\"Cancel " + deliveryID + "\"/></form>";
             
-            text += "<form action=\"/driver\" method=\"post\"><input type=\"submit\" name=\"command\" value=\"Cancel " + deliveryID + "\"/></form>";
-            
-            text += "<p></p>";
-            
-            text += "<form action=\"/driver\" method=\"post\"><input type=\"submit\" name=\"command\" value=\"InProg " + deliveryID + "\"/></form>";
+            text += "<form id=\"/inProgress\" action=\"/driver\" method=\"post\"><input type=\"submit\" name=\"command\" value=\"InProg " + deliveryID + "\"/></form>";
             
             x.innerHTML = text;
             

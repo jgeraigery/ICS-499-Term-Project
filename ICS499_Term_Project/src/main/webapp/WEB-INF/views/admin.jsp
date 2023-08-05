@@ -51,12 +51,12 @@
 </form>
 -->
 
+<button class="logout" onclick="window.location.href='http://localhost:8080/login'">Log Out</button>
+
 <form action="/admin" enctype="multipart/form-data" method="post">
 	<input type="file" name="upload">
 	<input type="submit">
 </form>
-
-<button class="logout" onclick="window.location.href='http://localhost:8080/login'">Log Out</button>
 
 <div class="row">
 	<div class="column1">
@@ -69,16 +69,17 @@
 	    <button onclick="showStatusOnly('canceled')">Canceled</button>
 	    
 	    <p></p>
-	    <form id="dateForm">
-            Enter date in format (YYYY-MM-DD): <input type="text" name="dateEntry">
-        </form>
-        <button onclick="filterTextbox('dateForm')">Date Filter</button>
-        
-        <p></p>
-        <form id="driverForm">
-            Enter driver ID in format (#): <input type="text" name="driverEntry">
-        </form>
-        <button onclick="filterTextbox('driverForm')">Driver Filter</button>
+	    <div style="display:inline-block;">
+		    <form id="dateForm">
+	            Enter date in format (YYYY-MM-DD): <input type="text" name="dateEntry">
+	        </form>
+	        <button onclick="filterTextbox('dateForm')">Date Filter</button>
+	        
+	        <form id="driverForm">
+	            Enter driver ID in format (#): <input type="text" name="driverEntry">
+	        </form>
+	        <button id="driverFilterButton" onclick="filterTextbox('driverForm')">Driver Filter</button>
+	    </div>
 	    
 		<p>All Deliveries to View for <%= db.getUserFullName(control.getCurrentUser()) %></p>
 		
