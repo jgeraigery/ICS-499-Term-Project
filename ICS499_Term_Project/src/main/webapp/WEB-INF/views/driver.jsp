@@ -14,7 +14,8 @@
 </head>
 <body>
 
-<h1>Welcome <%= db.getUserFullName(control.getCurrentUser()) %></h1>
+<h1>EZ Invoicing</h1>
+<h2>Welcome <%= db.getUserFullName(control.getCurrentUser()) %></h2>
 <button class="logout" onclick="window.location.href='http://localhost:8080/login'">Log Out</button>
 
 <div class="row">

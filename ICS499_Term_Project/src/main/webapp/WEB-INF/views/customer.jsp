@@ -18,7 +18,8 @@
 
 <body>
 
-<h1>Welcome <%= db.getUserFullName(control.getCurrentUser()) %></h1>
+<h1>EZ Invoicing</h1>
+<h2>Welcome <%= db.getUserFullName(control.getCurrentUser()) %></h2>
 
 <!-- Might be brought back later -->
 <!-- <h2>All Invoice Total: $<% //userUtil.totalInvoiceTotal(db.getInvoiceDates(control.getCurrentUser())) %></h2> -->
