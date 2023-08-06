@@ -85,7 +85,7 @@ public class NavigationController {
 						dbUtil.insertDelivery(temp[0], Integer.parseInt(temp[1]), Integer.parseInt(temp[2]), Integer.parseInt(temp[3]), Integer.parseInt(temp[4]), temp[5]);
 					}
 				} else {
-					// do nothing bad line
+					System.out.println("BAD LINE - Incorrect Formatting");
 				}
 			}
 			br.close();
