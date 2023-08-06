@@ -3,6 +3,8 @@ package com.abc.termproject.controller;
 import java.io.File;
 import java.io.FileReader;
 import java.io.BufferedReader;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -59,13 +61,29 @@ public class NavigationController {
 			BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\Thomas\\OneDrive\\Desktop\\Computer Science & Coding\\Summer 2023\\ICS 499\\Term Project\\Milestone 4\\"+upload.getOriginalFilename()));
 			String temp[]; 
 			String currentLine;
+			SimpleDateFormat formatter;
+			Date date, todaysDate;
 			
 			while ((currentLine = br.readLine()) != null) {
 				temp = currentLine.split(",");
 				if (temp.length == 5) {
-					dbUtil.insertInvoice(Integer.parseInt(temp[0]), Integer.parseInt(temp[1]), temp[2], Integer.parseInt(temp[3]), Integer.parseInt(temp[4]));
+					formatter = new SimpleDateFormat("yyyy-MM-dd");
+					date = formatter.parse(temp[2]);
+					todaysDate = new Date(System.currentTimeMillis());
+					if (date.before(todaysDate)) {
+						System.out.println("Specified date is in the past");
+					} else {
+						dbUtil.insertInvoice(Integer.parseInt(temp[0]), Integer.parseInt(temp[1]), temp[2], Integer.parseInt(temp[3]), Integer.parseInt(temp[4]));
+					}
 				} else if (temp.length == 6) {
-					dbUtil.insertDelivery(temp[0], Integer.parseInt(temp[1]), Integer.parseInt(temp[2]), Integer.parseInt(temp[3]), Integer.parseInt(temp[4]), temp[5]);
+					formatter = new SimpleDateFormat("yyyy-MM-dd");
+					date = formatter.parse(temp[5]);
+					todaysDate = new Date(System.currentTimeMillis());
+					if (date.before(todaysDate)) {
+						System.out.println("Specified date is in the past");
+					} else {
+						dbUtil.insertDelivery(temp[0], Integer.parseInt(temp[1]), Integer.parseInt(temp[2]), Integer.parseInt(temp[3]), Integer.parseInt(temp[4]), temp[5]);
+					}
 				} else {
 					// do nothing bad line
 				}
