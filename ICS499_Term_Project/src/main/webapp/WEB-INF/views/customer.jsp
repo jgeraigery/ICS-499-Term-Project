@@ -19,17 +19,16 @@
 <body>
 
 <h1>EZ Invoicing</h1>
-<h2>Welcome <%= db.getUserFullName(control.getCurrentUser()) %>!</h2>
-
-<!-- Might be brought back later -->
-<!-- <h2>All Invoice Total: $<% //userUtil.totalInvoiceTotal(db.getInvoiceDates(control.getCurrentUser())) %></h2> -->
 
 <button class="logout" onclick="window.location.href='http://localhost:8080/login'">Log Out</button>
+
+<br></br>
+<br></br>
 
 <div class="row">
     
 	<div class="column1">
-		<p>Invoice history for <%= db.getUserFullName(control.getCurrentUser()) %></p>
+		<p>Invoice history for <%= db.getUserFullName(control.getCurrentUser()) %>:</p>
 		<ul style="list-style-type: none">
 		<%= userUtil.invoiceListBuilder(db.getInvoiceDates(control.getCurrentUser())) %>
         </ul>
@@ -82,10 +81,10 @@
             
             text += "<ul style=\"list-style-type: none\">";
             
-            text += "<li>Name: " + customerName + "</li>";
-            text += "<li>Address: " + sNumber + " " + street + "</li>";
-            text += "<li>Location: " + city + ", " + state + " " + zip + "</li>";
-            text += "<li>Phone Number: (" + prefix + ") " + String(pNumber).substr(0, 3) + "-" + String(pNumber).substr(3) + "</li>";
+            text += "<li>" + customerName + "</li>";
+            text += "<li>" + sNumber + " " + street + "</li>";
+            text += "<li>" + city + ", " + state + " " + zip + "</li>";
+            text += "<li>(" + prefix + ") " + String(pNumber).substr(0, 3) + "-" + String(pNumber).substr(3) + "</li>";
             
             text += "</ul>";
             
@@ -103,11 +102,15 @@
                 let price = (arguments[5 * i + 16]).toFixed(2);
                 let quantity = arguments[5 * i + 17];
             	
-            	text += "<li>productID: " + productID + " | name: " + name + " | des: " + description + 
+                text += "<li>productID: " + productID + " | name: " + name + " | des: " + description + 
                 " | price: $" + price + " | quantity: " + quantity + "</li>";
             }
             
-            text += "<p>Invoice Total: $" + myInvoiceTotal + "</p>";
+            text += "<br></br>";
+            
+            text += "<p style=\"position: absolute; right: 310px;\">Invoice Total: $" + myInvoiceTotal + "</p>";
+            
+            text += "<br></br>";
             
             text += "</ul>";
             

@@ -15,8 +15,10 @@
 <body>
 
 <h1>EZ Invoicing</h1>
-<h2>Welcome <%= db.getUserFullName(control.getCurrentUser()) %>!</h2>
 <button class="logout" onclick="window.location.href='http://localhost:8080/login'">Log Out</button>
+
+<br></br>
+<br></br>
 
 <div class="row">
     
@@ -32,7 +34,7 @@
         </form>
         <button onclick="filterTextbox('dateForm')">Date Filter</button>
 	
-		<p>Deliveries for <%= db.getUserFullName(control.getCurrentUser()) %></p>
+		<p>&nbsp;Deliveries for <%= db.getUserFullName(control.getCurrentUser()) %>:</p>
 		
 		<ul style="list-style-type: none">
 		<%= userUtil.delivListBuilderDriver(db.getDeliveriesByDriver(db.getUserIDByUserName(control.getCurrentUser()))) %>
@@ -134,9 +136,6 @@
             text += "<li>Date: " + invoiceDate + "</li>";
             text += "<li>Invoice ID: " + invoiceID + "</li>";
             text += "<li>Customer ID: " + customerID + "</li>";
-            text += "<li>----------------------------</li>";
-            text += "<li>Status: " + status + "</li>";
-            text += "<li>Delivery ID: " + deliveryID + "</li>";
             
             text += "</ul>";
             
@@ -144,10 +143,10 @@
             
             text += "<ul style=\"list-style-type: none\">";
             
-            text += "<li>Name: " + customerName + "</li>";
-            text += "<li>Address: " + sNumber + " " + street + "</li>";
-            text += "<li>Location: " + city + ", " + state + " " + zip + "</li>";
-            text += "<li>Phone Number: (" + prefix + ") " + String(pNumber).substr(0, 3) + "-" + String(pNumber).substr(3) + "</li>";
+            text += "<li>" + customerName + "</li>";
+            text += "<li>" + sNumber + " " + street + "</li>";
+            text += "<li>" + city + ", " + state + " " + zip + "</li>";
+            text += "<li>(" + prefix + ") " + String(pNumber).substr(0, 3) + "-" + String(pNumber).substr(3) + "</li>";
             
             text += "</ul>";
             
@@ -176,13 +175,19 @@
             
             text += "</ul>";
             
-            text += "<p>Invoice Total: $" + myInvoiceTotal + "</p>";
+            text += "<br></br>";
             
-            text += "<form id=\"/verify\" action=\"/driver\" method=\"post\"><input type=\"submit\" name=\"command\" value=\"Verify " + deliveryID + "\"/></form>";
+            text += "<p style=\"position: absolute; right: 310px;\">Invoice Total: $" + myInvoiceTotal + "</p>";
+            
+            text += "<br></br>";
+            text += "<br></br>";
+            text += "<br></br>";
             
             text += "<form id=\"/cancel\" action=\"/driver\" method=\"post\"><input type=\"submit\" name=\"command\" value=\"Cancel " + deliveryID + "\"/></form>";
             
             text += "<form id=\"/inProgress\" action=\"/driver\" method=\"post\"><input type=\"submit\" name=\"command\" value=\"InProg " + deliveryID + "\"/></form>";
+            
+            text += "<form id=\"/verify\" action=\"/driver\" method=\"post\"><input type=\"submit\" name=\"command\" value=\"Verify " + deliveryID + "\"/></form>";
             
             x.innerHTML = text;
             

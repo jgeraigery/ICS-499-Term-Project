@@ -15,47 +15,12 @@
 <body>
 
 <h1>EZ Invoicing</h1>
-<h2>Welcome <%= db.getUserFullName(control.getCurrentUser()) %>!</h2>
-
-<!-- This form is used to submit invoiceItem data to the database
-	 Currently adds one item at a time to any given invoice
-	 Also assumes user knows what they're doing and doesn't input any bad values
-	 EX) different user id or date than original invoice info 
-<form action="/admin" method="post">
-	<table>
-	 	<tr>
-			<td>Invoice ID:</td>
-			<td><input type="text" name="invoiceId" required></td>
-		</tr>
-		<tr>
-			<td>Customer ID:</td>
-			<td><input type="text" name="customerId" required></td>
-		</tr>
-		<tr>
-			<td>Invoice Date:</td>
-			<td><input type="date" name="date" required></td>
-		</tr>
-		<tr>
-			<td>Product Id:</td>
-			<td><input type="text" name="prodId" required></td>
-		</tr>
-		<tr>
-			<td>Quantity:</td>
-			<td><input type="text" name="quantity" required></td>
-		</tr>
-		<tr>
-			<td><input type="submit" value="Upload Invoice Item"></td>
-			<td><input type="reset" value="Reset"></td>
-		</tr>
-	</table>
-</form>
--->
 
 <button class="logout" onclick="window.location.href='http://localhost:8080/login'">Log Out</button>
 
 <form action="/admin" enctype="multipart/form-data" method="post">
 	<input type="file" name="upload" id="fileUpload">
-	<input type="submit" id="fileSubmit">
+	<input type="submit" value="Upload" id="fileSubmit">
 </form>
 
 <div class="row">
@@ -84,7 +49,7 @@
 	        
 	    </div>
 	    
-		<p>All Deliveries View for <%= db.getUserFullName(control.getCurrentUser()) %></p>
+		<p>&nbsp;All Deliveries View for <%= db.getUserFullName(control.getCurrentUser()) %>:</p>
 		
         <ul style="list-style-type: none">
         <%= userUtil.delivListBuilderAdmin(db.getDeliveriesAll()) %>
@@ -187,10 +152,6 @@
             text += "<li>Date: " + invoiceDate + "</li>";
             text += "<li>Invoice ID: " + invoiceID + "</li>";
             text += "<li>Customer ID: " + customerID + "</li>";
-            text += "<li>----------------------------</li>";
-            text += "<li>Status: " + status + "</li>";
-            text += "<li>Delivery ID: " + deliveryID + "</li>";
-            text += "<li>Driver ID: " + driverID + "</li>";
             
             text += "</ul>";
             
@@ -198,10 +159,10 @@
             
             text += "<ul style=\"list-style-type: none\">";
             
-            text += "<li>Name: " + customerName + "</li>";
-            text += "<li>Address: " + sNumber + " " + street + "</li>";
-            text += "<li>Location: " + city + ", " + state + " " + zip + "</li>";
-            text += "<li>Phone Number: (" + prefix + ") " + String(pNumber).substr(0, 3) + "-" + String(pNumber).substr(3) + "</li>";
+            text += "<li>" + customerName + "</li>";
+            text += "<li>" + sNumber + " " + street + "</li>";
+            text += "<li>" + city + ", " + state + " " + zip + "</li>";
+            text += "<li>(" + prefix + ") " + String(pNumber).substr(0, 3) + "-" + String(pNumber).substr(3) + "</li>";
             
             text += "</ul>";
             
@@ -228,7 +189,11 @@
                 " | price: $" + price + " | quantity: " + quantity + "</li>";
             }
             
-            text += "<p>Invoice Total: $" + myInvoiceTotal + "</p>";
+            text += "<br></br>";
+            
+            text += "<p style=\"position: absolute; right: 250px;\">Invoice Total: $" + myInvoiceTotal + "</p>";
+            
+            text += "<br></br>";
             
             text += "</ul>";
             

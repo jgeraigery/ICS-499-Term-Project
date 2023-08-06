@@ -17,18 +17,24 @@ import com.abc.termproject.utils.DatabaseUtility;
 public class SecurityConfig {
 	
 
-	// This method is used to store user credentials. After connecting to the DB, we will need to read in the users
-	// into this unless there is another way to do it. For the hard coded users, it works great
+	/**
+	 * This method creates a user list from the database in order to validate users.
+	 * @return (UserDetailsService) - user list
+	 */
 	@Bean
 	public UserDetailsService user() {
 		DatabaseUtility connection = new DatabaseUtility();
-//		connection.connect();
 		List <UserDetails> userList = connection.getUsers();
 		return new InMemoryUserDetailsManager(userList);
 	}
 	
-	// This method is used for authentication of admin vs customer vs driver
-	// also disables csrf to allow for calling post methods
+	/**
+	 * Method used for adjusting the security filter chain. Used for authorizing users
+	 * to do different things, such as page access and access to post methods.
+	 * @param (HttpSecurity) - http
+	 * @return (SecurityFilterChain) - http
+	 * @throws Exception
+	 */
 	@Bean
 	public SecurityFilterChain securityFilter(HttpSecurity http) throws Exception {
 		System.out.println();

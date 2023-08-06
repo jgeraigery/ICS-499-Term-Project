@@ -2,8 +2,6 @@ package com.abc.termproject.controller;
 
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
-import java.util.Scanner;
 import java.io.BufferedReader;
 
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -23,14 +21,12 @@ import com.abc.termproject.utils.DatabaseUtility;
 public class NavigationController {
 	
 	DatabaseUtility dbUtil = new DatabaseUtility();
-
-	// This may not be necessary until if/when we want a custom login page (this includes the login.jsp)
-//	@GetMapping("/login")
-//	public String login() {
-//		return "login";
-//	}
 	
-	// Used to redirect user based on login credentials
+	/**
+	 * Method to redirect user based on login credentials
+	 * @param (HttpServletRequest) - request
+	 * @return (String) - landing page
+	 */
 	@GetMapping("/")
 	public String redirect(HttpServletRequest request) {
 		if (request.isUserInRole("DRIVER")) {
@@ -43,11 +39,11 @@ public class NavigationController {
 	}
 	
 	/**
-	 * Work in progress method. Currently uploads invoice items to database from file, each line represents a different invoice item.
+	 * Method for uploading invoice items to database from file, each line represents a different invoice item.
 	 * If a delivery needs to be added then it can as well by following the syntax displayed below.
 	 * File line example of invoice item looks like: 7,1,2023-12-08,8,5
 	 * File line example of delivery looks like: in progress,4,1,1,7,2023-12-08
-	 * NOTE: You have to change the directory to one on your personal machine, so follow the database connection pattern where we comment out each others
+	 * NOTE: You have to change the directory to one on your personal machine (lines 58 and 59)
 	 * 
 	 * @param (MultipartFile) - upload; uploaded file from user, must be a csv following format specified above
 	 */
@@ -80,14 +76,14 @@ public class NavigationController {
 		}
 	}
 	
-	// Post request method for changing the status of a delivery
+	/**
+	 * Post request method for changing the status of a delivery
+	 * @param (String) - command
+	 */
     @PostMapping(path="/driver")
     public void driverButtonAction(@RequestParam String command) {
         
         int deliveryID;
-        
-        //System.out.println(command);
-        //System.out.println(command.substring(0, 6));
         
         if (command.substring(0, 6).equals("Verify")) {
             
@@ -139,6 +135,10 @@ public class NavigationController {
         }
     }
 	
+    /**
+     * Method used for accessing current user logged into app
+     * @return (String) - current user name
+     */
 	public String getCurrentUser() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
