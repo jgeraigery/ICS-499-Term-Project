@@ -108,7 +108,7 @@
             
             text += "<br></br>";
             
-            text += "<p style=\"position: absolute; right: 310px;\">Invoice Total: $" + myInvoiceTotal + "</p>";
+            text += "<p style=\"position: absolute; right: 15%;\">Invoice Total: $" + myInvoiceTotal + "</p>";
             
             text += "<br></br>";
             
