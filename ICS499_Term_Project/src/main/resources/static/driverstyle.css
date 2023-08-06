@@ -1,4 +1,11 @@
 @charset "ISO-8859-1";
+h1 {
+  text-shadow: .5px .5px;
+  /*text-align: center;*/
+  text-transform: uppercase;
+  color: 000040252110109;
+}
+
 .row {
 	display: flex;
 	padding: 25px;
@@ -23,16 +30,16 @@
 }
 
 #cancel {
-	position: relative;
+    position: relative;
 }
 
 #verify {
-	position: relative;
-	left: 0%;
+    position: relative;
+    left: 0%;
 }
 
 #inProgress {
-	position: relative;
+    position: relative;
 }
 
 button {
@@ -50,9 +57,9 @@ button:hover {
 	cursor: pointer;
 }
 
-form {
+#dateForm {
   box-sizing: border-box;
-  width: 25%;
+  flex: 100%;
   padding: 1rem;
   border-radius: 1rem;
   background-color: hsl(0, 0%, 100%);
@@ -60,6 +67,51 @@ form {
   display: inline-block;
   grid-template-columns: 1fr;
   gap: 2rem;
+}
+
+#enterDate {
+  box-sizing: border-box;
+  border-radius: 0.3rem;
+  background-color: hsl(0, 0%, 95%);
+  transition-duration: 0.4s;
+}
+
+#invoiceDetails {
+    text-align: left;
+    flex: 50;
+}
+
+#customerDetails {
+    text-align: left;
+    flex: 50;
+}
+
+form:not(#dateForm) {
+  text-align: center;
+  box-sizing: border-box;
+  width: 33%;
+  border-radius: 1rem;
+  background-color: hsl(0, 0%, 95%);
+  border: 4px solid hsl(0, 0%, 95%);
+  display: inline-block;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+input:not(#enterDate) {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 1rem;
+  border-radius: 1rem;
+  background-color: hsl(0, 0%, 100%);
+  border: 4px solid hsl(0, 0%, 95%);
+  transition-duration: 0.4s;
+}
+
+input:not(#enterDate):hover {
+  background-color: hsl(0, 0%, 50%);
+  color: white;
+  cursor: pointer;
 }
 
 * {

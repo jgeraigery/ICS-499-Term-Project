@@ -15,7 +15,7 @@
 <body>
 
 <h1>EZ Invoicing</h1>
-<h2>Welcome <%= db.getUserFullName(control.getCurrentUser()) %></h2>
+<h2>Welcome <%= db.getUserFullName(control.getCurrentUser()) %>!</h2>
 
 <!-- This form is used to submit invoiceItem data to the database
 	 Currently adds one item at a time to any given invoice
@@ -54,14 +54,12 @@
 <button class="logout" onclick="window.location.href='http://localhost:8080/login'">Log Out</button>
 
 <form action="/admin" enctype="multipart/form-data" method="post">
-	<input type="file" name="upload">
-	<input type="submit">
+	<input type="file" name="upload" id="fileUpload">
+	<input type="submit" id="fileSubmit">
 </form>
 
 <div class="row">
 	<div class="column1">
-	    
-	    <p>View Filters:</p>
 	    
 	    <button onclick="showAll()">All</button>
 	    <button onclick="showStatusOnly('progress')">In Progress</button>
@@ -69,25 +67,30 @@
 	    <button onclick="showStatusOnly('canceled')">Canceled</button>
 	    
 	    <p></p>
+	    
 	    <div style="display:inline-block;">
+	    
+	        <form id="driverForm">
+                Enter driver ID in format (#): <input type="text" name="driverEntry" class="enterFormBox">
+            </form>
+            <button id="driverFilterButton" onclick="filterTextbox('driverForm')">Driver Filter</button>
+            
+            <p></p>
+            
 		    <form id="dateForm">
-	            Enter date in format (YYYY-MM-DD): <input type="text" name="dateEntry">
+	            Enter date in format (YYYY-MM-DD): <input type="text" name="dateEntry" class="enterFormBox">
 	        </form>
 	        <button onclick="filterTextbox('dateForm')">Date Filter</button>
 	        
-	        <form id="driverForm">
-	            Enter driver ID in format (#): <input type="text" name="driverEntry">
-	        </form>
-	        <button id="driverFilterButton" onclick="filterTextbox('driverForm')">Driver Filter</button>
 	    </div>
 	    
-		<p>All Deliveries to View for <%= db.getUserFullName(control.getCurrentUser()) %></p>
+		<p>All Deliveries View for <%= db.getUserFullName(control.getCurrentUser()) %></p>
 		
         <ul style="list-style-type: none">
         <%= userUtil.delivListBuilderAdmin(db.getDeliveriesAll()) %>
         </ul>
 		
-	</div>
+	 </div> 
 	
 	<div class="column2" id="column2" style="display:none">
 	</div>
@@ -171,30 +174,61 @@
             let prefix = arguments[12];
             let pNumber = arguments[13];
             
-            let myInvoiceItemListLength = arguments[14];
+            let customerName = arguments[14];
             
-            let text = "<p>Invoice information for Invoice Date: " + invoiceDate + " | Invoice ID: " + invoiceID + 
-            " | Delivery ID: " + deliveryID + " | Customer ID: " + customerID + " | Current Status: " + status + "</p>";
+            let myInvoiceItemListLength = arguments[15];
             
-            text += "<p>Address: " + sNumber + " " + street + ", " + city + ", " + state + " " + zip + "</p>";
+            let text = "<div class=\"row\">";
             
-            text += "<p>Phone Number: " + prefix + pNumber + "</p>";
+            text += "<div id=\"invoiceDetails\">";
             
-            text += "<p>Invoice Total: $" + myInvoiceTotal + "</p>";
+            text += "<ul style=\"list-style-type: none\">";
+            
+            text += "<li>Date: " + invoiceDate + "</li>";
+            text += "<li>Invoice ID: " + invoiceID + "</li>";
+            text += "<li>Customer ID: " + customerID + "</li>";
+            text += "<li>----------------------------</li>";
+            text += "<li>Status: " + status + "</li>";
+            text += "<li>Delivery ID: " + deliveryID + "</li>";
+            text += "<li>Driver ID: " + driverID + "</li>";
+            
+            text += "</ul>";
+            
+            text += "</div><div id=\"customerDetails\">";
+            
+            text += "<ul style=\"list-style-type: none\">";
+            
+            text += "<li>Name: " + customerName + "</li>";
+            text += "<li>Address: " + sNumber + " " + street + "</li>";
+            text += "<li>Location: " + city + ", " + state + " " + zip + "</li>";
+            text += "<li>Phone Number: (" + prefix + ") " + String(pNumber).substr(0, 3) + "-" + String(pNumber).substr(3) + "</li>";
+            
+            text += "</ul>";
+            
+            text += "</div></div>";
+            
+            //let text = "<p>Invoice information for Invoice Date: " + invoiceDate + " | Invoice ID: " + invoiceID + 
+            //" | Delivery ID: " + deliveryID + " | Customer ID: " + customerID + " | Current Status: " + status + "</p>";
+            
+            //text += "<p>Address: " + sNumber + " " + street + ", " + city + ", " + state + " " + zip + "</p>";
+            
+            //text += "<p>Phone Number: " + prefix + pNumber + "</p>";
             
             text += "<ul style=\"list-style-type: none\">";
             
             for (let i = 0; i < myInvoiceItemListLength; i++) {
                 
-            	let productID = arguments[5 * i + 15];
-                let name = arguments[5 * i + 16];
-                let description = arguments[5 * i + 17];
-                let price = (arguments[5 * i + 18]).toFixed(2);
-                let quantity = arguments[5 * i + 19];
+            	let productID = arguments[5 * i + 16];
+                let name = arguments[5 * i + 17];
+                let description = arguments[5 * i + 18];
+                let price = (arguments[5 * i + 19]).toFixed(2);
+                let quantity = arguments[5 * i + 20];
                 
                 text += "<li>productID: " + productID + " | name: " + name + " | des: " + description + 
                 " | price: $" + price + " | quantity: " + quantity + "</li>";
             }
+            
+            text += "<p>Invoice Total: $" + myInvoiceTotal + "</p>";
             
             text += "</ul>";
             

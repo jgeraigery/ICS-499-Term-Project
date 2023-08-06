@@ -1,4 +1,11 @@
 @charset "ISO-8859-1";
+h1 {
+  text-shadow: .5px .5px;
+  /*text-align: center;*/
+  text-transform: uppercase;
+  color: 000040252110109;
+}
+
 .row {
 	display: flex;
 	padding: 25px;
@@ -47,6 +54,16 @@ form {
   display: inline-block;
   grid-template-columns: 1fr;
   gap: 2rem;
+}
+
+#invoiceDetails {
+    text-align: left;
+    flex: 50;
+}
+
+#customerDetails {
+    text-align: left;
+    flex: 50;
 }
 
 * {
