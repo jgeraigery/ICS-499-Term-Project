@@ -54,17 +54,17 @@
  	public void upload(@RequestParam MultipartFile upload) {
  		if (upload.getOriginalFilename().substring(upload.getOriginalFilename().length()-4).equalsIgnoreCase(".csv")) {
  			// do nothing, this is good
--		} else {
-+    File destinationFile = new File("C:\\Users\\Thomas\\OneDrive\\Desktop\\Computer Science & Coding\\Summer 2023\\ICS 499\\Term Project\\Milestone 4\\" + upload.getOriginalFilename());
-+    String normalizedPath = destinationFile.getCanonicalPath();
-+    if (!normalizedPath.startsWith(new File("C:\\Users\\Thomas\\OneDrive\\Desktop\\Computer Science & Coding\\Summer 2023\\ICS 499\\Term Project\\Milestone 4\\").getCanonicalPath())) {
-+        throw new IOException("Invalid file path");
-+    }
-+    upload.transferTo(destinationFile);
+ 		} else {
  			return;
  		}
  		try {
- 			upload.transferTo(new File("C:\\Users\\Thomas\\OneDrive\\Desktop\\Computer Science & Coding\\Summer 2023\\ICS 499\\Term Project\\Milestone 4\\"+upload.getOriginalFilename()));
+-			upload.transferTo(new File("C:\\Users\\Thomas\\OneDrive\\Desktop\\Computer Science & Coding\\Summer 2023\\ICS 499\\Term Project\\Milestone 4\\"+upload.getOriginalFilename()));
++        File targetFile = new File("C:\\Users\\Thomas\\OneDrive\\Desktop\\Computer Science & Coding\\Summer 2023\\ICS 499\\Term Project\\Milestone 4\\" + upload.getOriginalFilename());
++        String normalizedPath = targetFile.getCanonicalPath();
++        if (!normalizedPath.startsWith(new File("C:\\Users\\Thomas\\OneDrive\\Desktop\\Computer Science & Coding\\Summer 2023\\ICS 499\\Term Project\\Milestone 4\\").getCanonicalPath())) {
++            throw new IOException("Invalid file path");
++        }
++        upload.transferTo(targetFile);
  			BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\Thomas\\OneDrive\\Desktop\\Computer Science & Coding\\Summer 2023\\ICS 499\\Term Project\\Milestone 4\\"+upload.getOriginalFilename()));
  			String temp[]; 
  			String currentLine;
