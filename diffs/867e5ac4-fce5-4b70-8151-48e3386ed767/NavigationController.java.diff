@@ -55,18 +55,18 @@
  		if (upload.getOriginalFilename().substring(upload.getOriginalFilename().length()-4).equalsIgnoreCase(".csv")) {
  			// do nothing, this is good
  		} else {
--			return;
-+    String basePath = "C:\\Users\\Thomas\\OneDrive\\Desktop\\Computer Science & Coding\\Summer 2023\\ICS 499\\Term Project\\Milestone 4\\";
-+    File file = new File(basePath + upload.getOriginalFilename());
-+    String canonicalPath = file.getCanonicalPath();
-+    if (!canonicalPath.startsWith(new File(basePath).getCanonicalPath())) {
-+        throw new SecurityException("Invalid file path");
-+    }
-+    BufferedReader br = new BufferedReader(new FileReader(file));
+ 			return;
  		}
  		try {
- 			upload.transferTo(new File("C:\\Users\\Thomas\\OneDrive\\Desktop\\Computer Science & Coding\\Summer 2023\\ICS 499\\Term Project\\Milestone 4\\"+upload.getOriginalFilename()));
- 			BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\Thomas\\OneDrive\\Desktop\\Computer Science & Coding\\Summer 2023\\ICS 499\\Term Project\\Milestone 4\\"+upload.getOriginalFilename()));
+-			upload.transferTo(new File("C:\\Users\\Thomas\\OneDrive\\Desktop\\Computer Science & Coding\\Summer 2023\\ICS 499\\Term Project\\Milestone 4\\"+upload.getOriginalFilename()));
+-			BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\Thomas\\OneDrive\\Desktop\\Computer Science & Coding\\Summer 2023\\ICS 499\\Term Project\\Milestone 4\\"+upload.getOriginalFilename()));
++            File targetFile = new File("C:\\Users\\Thomas\\OneDrive\\Desktop\\Computer Science & Coding\\Summer 2023\\ICS 499\\Term Project\\Milestone 4\\" + upload.getOriginalFilename());
++            String normalizedPath = targetFile.getCanonicalPath();
++            if (!normalizedPath.startsWith("C:\\Users\\Thomas\\OneDrive\\Desktop\\Computer Science & Coding\\Summer 2023\\ICS 499\\Term Project\\Milestone 4\\")) {
++                throw new IOException("Invalid file path");
++            }
++            upload.transferTo(targetFile);
++            BufferedReader br = new BufferedReader(new FileReader(targetFile));
  			String temp[]; 
  			String currentLine;
  			SimpleDateFormat formatter;
